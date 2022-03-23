@@ -1,1 +1,5 @@
+/.idea/
 /out/
+/target/
+/demo1.iml
+/*.png
