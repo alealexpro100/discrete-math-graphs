@@ -1,2 +1,5 @@
-.idea
-target
+/.idea/
+/out/
+/target/
+/demo1.iml
+/*.png
