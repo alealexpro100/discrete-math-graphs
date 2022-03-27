@@ -3,13 +3,15 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.effect.Blend?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" spacing="20.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo1.View5" style="-fx-background-color:  ECECEC;">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" spacing="20.0" style="-fx-background-color:  ECECEC;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo1.View4">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
@@ -26,7 +28,7 @@
         </AnchorPane>
         <AnchorPane prefHeight="261.0" prefWidth="560.0">
             <children>
-                <Button fx:id="buttonCheck" layoutX="152.0" layoutY="165.0" mnemonicParsing="false" onAction="#onClickCheck" prefHeight="35.0" prefWidth="160.0" style="-fx-background-color: A1A1A1;" text="Проверить" textAlignment="CENTER">
+                <Button fx:id="buttonCheck" layoutX="127.0" layoutY="165.0" mnemonicParsing="false" onAction="#onClickCheck" prefHeight="35.0" prefWidth="160.0" style="-fx-background-color: A1A1A1;" text="Проверить" textAlignment="CENTER">
                     <font>
                         <Font name="System Bold" size="16.0" />
                     </font>
@@ -42,47 +44,17 @@
                     </children>
                 </AnchorPane>
                 <Line endX="100.0" layoutX="-2.0" layoutY="254.0" startX="100.0" startY="-274.0" />
-                <Label fx:id="setRes" layoutX="230.0" layoutY="221.0" >
-                    <font>
-                        <Font size="17.0" />
-                    </font>
-                </Label>
-                <Label fx:id="toLeft" layoutX="251.0" layoutY="99.0" text="&lt;" onMouseClicked="#toLeftVar">
-                    <font>
-                        <Font size="30.0" />
-                    </font>
-                </Label>
-                <Label fx:id="toRight" layoutX="402.0" layoutY="99.0" text="&gt;" onMouseClicked="#toRightVar">
-                    <font>
-                        <Font size="30.0" />
-                    </font>
-                </Label>
-                <Label layoutX="138.0" layoutY="89.0" text="Существенные:">
-                    <font>
-                        <Font name="System Bold" size="14.0" />
-                    </font>
-                </Label>
-                <Label layoutX="427.0" layoutY="89.0" text="Фиктивные:">
-                    <font>
-                        <Font name="System Bold" size="14.0" />
-                    </font>
-                </Label>
-                <Label fx:id="essVar" layoutX="159.0" layoutY="105.0" prefHeight="25.0" prefWidth="72.0">
+                <Label fx:id="setRes" layoutX="241.0" layoutY="121.0" prefHeight="20.0" prefWidth="150.0">
                     <font>
                         <Font size="14.0" />
                     </font>
                 </Label>
-                <Label fx:id="dumVar" layoutX="443.0" layoutY="107.0" prefHeight="17.0" prefWidth="51.0">
-                    <font>
-                        <Font size="14.0" />
-                    </font>
-                </Label>
-                <Label layoutX="266.0" layoutY="1.0" text="Вектор функции">
+                <Label layoutX="237.0" layoutY="2.0" text="Вектор функции">
                     <font>
                         <Font name="System Bold" size="18.0" />
                     </font>
                 </Label>
-                <Label fx:id="setVector" layoutX="282.0" layoutY="43.0" text="10101000">
+                <Label fx:id="setVector" layoutX="299.0" layoutY="42.0" text="1010">
                     <font>
                         <Font name="System Bold" size="14.0" />
                     </font>
@@ -92,11 +64,26 @@
                         <Font name="System Bold" size="16.0" />
                     </font>
                 </Button>
-                <Label fx:id="setVar" layoutX="290.0" layoutY="112.0" prefHeight="20.0" prefWidth="98.0" text="Переменная 1">
-                    <font>
-                        <Font size="14.0" />
-                    </font>
-                </Label>
+            <MenuButton fx:id="menu" layoutX="236.0" layoutY="81.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="160.0" text="Название">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#set0000" text="константа нуля" />
+                <MenuItem mnemonicParsing="false" onAction="#set0001" text="конъюкция" />
+                <MenuItem mnemonicParsing="false" onAction="#set0010" text="запрет по x2" />
+                <MenuItem mnemonicParsing="false" onAction="#set0011" text="переменная x1" />
+                <MenuItem mnemonicParsing="false" onAction="#set0100" text="запрет по x1" />
+                <MenuItem mnemonicParsing="false" onAction="#set0101" text="переменная x2" />
+                <MenuItem mnemonicParsing="false" onAction="#set0110" text="исключающее или" />
+                <MenuItem mnemonicParsing="false" onAction="#set0111" text="дизъюнкция" />
+                <MenuItem mnemonicParsing="false" onAction="#set1000" text="стрелка пирса" />
+                <MenuItem mnemonicParsing="false" onAction="#set1001" text="эквивалентность" />
+                <MenuItem mnemonicParsing="false" onAction="#set1010" text="инверсия x2" />
+                <MenuItem mnemonicParsing="false" onAction="#set1011" text="импликация x2 к x1" />
+                <MenuItem mnemonicParsing="false" onAction="#set1100" text="инверсия x1" />
+                <MenuItem mnemonicParsing="false" onAction="#set1101" text="импликация x1 к x2" />
+                <MenuItem mnemonicParsing="false" onAction="#set1110" text="штрих шеффера" />
+                <MenuItem mnemonicParsing="false" onAction="#set1111" text="константа еденицы" />
+              </items>
+            </MenuButton>
             </children>
             <effect>
                 <Blend />
