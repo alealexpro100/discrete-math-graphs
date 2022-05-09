@@ -1,30 +1,43 @@
 package com.example.demo2;
 
+import java.util.ArrayList;
+
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
-public class GraphDraw {
+public class GraphDraw<T> {
     private int[][] GraphLinkData;
-    private int[] GraphPointData;
+    private ArrayList<T> GraphPointData;
     private int GraphCount;
     private int GraphLimit;
-    private GraphicsContext GraphGraphicsContext;
+    private Canvas GraphCanvas;
 
     public GraphDraw(Canvas canvas, int limit) {
-        GraphGraphicsContext=canvas.getGraphicsContext2D();
+        GraphCanvas=canvas;
         GraphCount=0;
         GraphLimit=limit;
         GraphLinkData=new int[GraphLimit][GraphLimit];
-        GraphPointData=new int[GraphLimit];
+        GraphPointData=new ArrayList<T>(GraphLimit);
     }
 
-    public void add_point() {
-        
+    public int AddPoint(T var) {
+        GraphPointData.add(GraphCount, var);;
+        return GraphCount++;
+    }
+
+    public void AddLink(int IdX, int IdY, int LinkSize) {
+        GraphLinkData[IdX][IdY]=LinkSize;
     }
 
     public void test() {
-        GraphGraphicsContext.setFill(Color.BLUE);
-        GraphGraphicsContext.fillRect(0,0,100,100);
+        GraphicsContext gc=GraphCanvas.getGraphicsContext2D();
+        gc.setFill(Color.BLUE);
+        gc.fillRect(0,0,100,100);
+    }
+
+    public void clear() {
+        GraphicsContext gc=GraphCanvas.getGraphicsContext2D();
+        gc.clearRect(0, 0, GraphCanvas.getWidth(), GraphCanvas.getHeight());
     }
 }

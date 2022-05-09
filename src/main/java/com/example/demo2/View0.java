@@ -10,15 +10,17 @@ public class View0 extends goToButtons {
     @FXML
     private Canvas canvas1;
 
-    GraphDraw gd=new GraphDraw(canvas1, 20);
+    GraphDraw<Integer> gd;
 
     @FXML
     void initialize() {
         System.out.println("test");
+        gd=new GraphDraw<Integer>(canvas1, 20);
+        gd.test();
     }
 
     @FXML
     private void onClickTestAction() throws Exception {
-        gd.test();
+        gd.clear();
     }
 }
