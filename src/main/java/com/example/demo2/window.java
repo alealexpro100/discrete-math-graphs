@@ -1,4 +1,4 @@
-package com.example.demo1;
+package com.example.demo2;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -7,11 +7,10 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class HelloApplication extends Application {
-    private String fileName = "hello-view.fxml";
-    private String titleName = "Application 1";
+public class window extends Application {
+    private String fileName = "MainMenu.fxml";
+    private String titleName = "Main Menu";
     static Stage stage = null;
-
 
     public String getFileName() {
         return fileName;
@@ -30,27 +29,18 @@ public class HelloApplication extends Application {
     }
 
     public static void setStage(Stage stage) {
-        HelloApplication.stage = stage;
+        window.stage = stage;
     }
 
-    public Stage getStage() {
-        return stage;
-    }
     @Override
     public void start(Stage stage) throws IOException {
         startWindow();
-
     }
 
-
     public void startWindow() throws IOException {
-        System.out.println(111);
-        if (stage == null) {
-            System.out.println(123);
+        if (stage == null)
             stage = new Stage();
-        }
-
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource(fileName));
+        FXMLLoader fxmlLoader = new FXMLLoader(window.class.getResource(fileName));
         Scene scene = new Scene(fxmlLoader.load(), 600, 400);
         stage.setTitle(titleName);
         stage.setResizable(false);

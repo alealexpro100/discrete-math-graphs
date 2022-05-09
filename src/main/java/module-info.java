@@ -1,10 +1,7 @@
-module com.example.demo1 {
-    requires javafx.controls;
+module com.example.demo2 {
+    requires transitive javafx.controls;
     requires javafx.fxml;
-    requires jlatexmath;
     requires java.desktop;
-
-
-    opens com.example.demo1 to javafx.fxml;
-    exports com.example.demo1;
+    opens com.example.demo2 to javafx.fxml;
+    exports com.example.demo2;
 }

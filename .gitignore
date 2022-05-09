@@ -1,5 +1,6 @@
-/.idea/
-/out/
-/target/
-/demo1.iml
-/*.png
+.idea
+.vscode
+out
+target
+demo2.iml
+*.png
