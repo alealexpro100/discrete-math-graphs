@@ -21,11 +21,4 @@ public class goToButtons {
         app.startWindow();
     }
 
-    @FXML
-    private void onTo1() throws IOException {
-        var app = new window();
-        app.setFileName("view1.fxml");
-        app.setTitleName("Application 1");
-        app.startWindow();
-    }
 }

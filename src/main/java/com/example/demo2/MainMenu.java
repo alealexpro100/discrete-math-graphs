@@ -1,15 +1,25 @@
 package com.example.demo2;
 
-import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.event.EventHandler;
+import java.io.IOException;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.paint.Color;
 
 
 public class MainMenu extends goToButtons {
 
+    @FXML
+    private void onTo0() throws IOException {
+        var app = new window();
+        app.setFileName("view0.fxml");
+        app.setTitleName("Application 0");
+        app.startWindow();
+    }
+
+    @FXML
+    private void onTo1() throws IOException {
+        var app = new window();
+        app.setFileName("view1.fxml");
+        app.setTitleName("Application 1");
+        app.startWindow();
+    }
+    
 }
