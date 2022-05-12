@@ -9,9 +9,6 @@ import javafx.scene.layout.Pane;
 public class View0 extends goToButtons {
 
     @FXML
-    private Canvas canvas1;
-
-    @FXML
     private Pane pane1;
 
     GraphDraw<Integer> gd;
@@ -19,7 +16,7 @@ public class View0 extends goToButtons {
     @FXML
     void initialize() {
         System.out.println("test");
-        gd=new GraphDraw<Integer>(canvas1, pane1, 20);
+        gd=new GraphDraw<Integer>(pane1, 20);
     }
 
     @FXML

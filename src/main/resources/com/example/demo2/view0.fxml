@@ -5,12 +5,12 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo2.View0">
+<VBox prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo2.View0">
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
@@ -26,8 +26,11 @@
       <children>
             <Separator layoutX="317.0" orientation="VERTICAL" prefHeight="375.0" prefWidth="1.0" />
             <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#onClickTestAction" text="Test" />
-            <Canvas fx:id="canvas1" layoutX="318.0" height="375.0" width="321.0" />
-            <Pane fx:id="pane1" layoutX="318.0" prefHeight="375.0" prefWidth="321.0" />
+            <ScrollPane layoutX="319.0" prefHeight="450.0" prefWidth="385.0">
+              <content>
+                <AnchorPane fx:id="pane1" minHeight="0.0" minWidth="0.0" />
+              </content>
+            </ScrollPane>
       </children>
     </AnchorPane>
   </children>

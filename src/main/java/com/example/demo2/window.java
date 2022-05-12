@@ -41,7 +41,7 @@ public class window extends Application {
         if (stage == null)
             stage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader(window.class.getResource(fileName));
-        Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+        Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle(titleName);
         stage.setResizable(false);
         stage.setScene(scene);
