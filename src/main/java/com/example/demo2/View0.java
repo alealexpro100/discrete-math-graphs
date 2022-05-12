@@ -2,7 +2,6 @@ package com.example.demo2;
 
 
 import javafx.fxml.FXML;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.Pane;
 
 
@@ -21,7 +20,15 @@ public class View0 extends goToButtons {
 
     @FXML
     private void onClickTestAction() throws Exception {
-        gd.clear();
-        gd.test();
+        gd.AddPoint(2); //0
+        gd.AddPoint(4); //1
+        gd.AddPoint(5); //2
+        System.out.println(gd.GetPoint(0)); //2
+        System.out.println(gd.GetPoint(1)); //4
+        System.out.println(gd.GetPoint(2)); //5
+        gd.AddLink(0, 1, 2);
+        gd.AddLink(0, 1, 2);
+        gd.render();
+        gd.test_gr();
     }
 }
