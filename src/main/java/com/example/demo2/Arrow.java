@@ -21,7 +21,7 @@ public class Arrow extends Group {
     }
 
     private static double arrowLength = 20;
-    private static final double arrowWidth = 20;
+    private static double arrowWidth = 20;
 
     private Arrow(Line line, Line arrow1, Line arrow2) {
         super(line, arrow1, arrow2);
@@ -53,7 +53,7 @@ public class Arrow extends Group {
                 double dx = (sx - ex) * factor;
                 double dy = (sy - ey) * factor;
 
-                // part ortogonal to main line
+                // part orthogonal to main line
                 double ox = (sx - ex) * factorO;
                 double oy = (sy - ey) * factorO;
 
@@ -75,10 +75,11 @@ public class Arrow extends Group {
     // start/end properties
 
     public final void setStrokeWidth(double value) {
-        arrowLength=value*5;
+        arrowWidth=value*2;
+        arrowLength=value*3.5;
         line.setStrokeWidth(value);
-        arrow1.setStrokeWidth(value);
-        arrow2.setStrokeWidth(value);
+        arrow1.setStrokeWidth(value/1.25);
+        arrow2.setStrokeWidth(value/1.25);
     }
 
     public final void setStroke(Color value) {

@@ -23,8 +23,8 @@
     </MenuBar>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
-            <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#onTo0" text="Task 0" />
-            <Button layoutX="14.0" layoutY="47.0" mnemonicParsing="false" onAction="#onTo1" text="Task 1" />
+            <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#onToExample" text="Example" />
+            <Button layoutX="14.0" layoutY="47.0" mnemonicParsing="false" onAction="#onTo0" text="Task 0" />
             <ImageView fitHeight="350.0" fitWidth="340.0" layoutX="250.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@logo.png" />
