@@ -1,5 +1,6 @@
 package com.example.demo2;
 
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -60,8 +61,11 @@ public class GraphDraw<T> {
     /** 
      * @param var Node to add
      * @return Index of added node
+     * @throws Exception
      */
-    public int AddPoint(T var) {
+    public int AddPoint(T var) throws Exception {
+        if (Count+1>Limit)
+            throw new Exception("GraphDraw: Limit exceeded! Limit is "+Limit+". Requested "+(Count+1)+" new size.");
         PointData.add(Count, var);
         return Count++;
     }
@@ -69,25 +73,36 @@ public class GraphDraw<T> {
     /** 
      * @param var Node to add
      * @return Index of added node
+     * @throws Exception
      */
-    public int SetPoint(T var, int Id) {
+    public int SetPoint(T var, int Id) throws Exception {
+        if (Id>=Count)
+            throw new Exception("GraphDraw: index out bounds! Count is "+Count+". Requested id is "+Id+".");
         PointData.set(Id, var);
         return Id;
     }
     
     /** 
-     * @param pos Position of needed node
+     * @param Id Position of needed node
      * @return T Return requested node
+     * @throws Exception
      */
-    public T GetPoint(int pos) {
-        return PointData.get(pos);
+    public T GetPoint(int Id) throws Exception {
+        if (Id>=Count)
+            throw new Exception("GraphDraw: index out bounds! Count is "+Count+". Requested id is "+Id+".");
+        return PointData.get(Id);
     }
     
     /** 
-     * @param pos Node to remove
+     * @param Id Node to remove
+     * @throws Exception
      */
-    public void DelPoint(int pos) {
-        PointData.remove(pos);
+    public void DelPoint(int Id) throws Exception {
+        if (Id>=Count)
+            throw new Exception("GraphDraw: index out bounds! Count is "+Count+". Requested id is "+Id+".");
+        if (Count==0)
+            throw new Exception("GraphDraw: nothing to delete! Count is "+Count+". Requested id is "+Id+".");
+        PointData.remove(Id);
         --Count;
     }
 
@@ -95,8 +110,13 @@ public class GraphDraw<T> {
      * @param x Index of first node
      * @param y Index of second node
      * @param size Size between nodes
+     * @throws Exception
      */
-    public void AddLink(int x, int y, int size) {
+    public void AddLink(int x, int y, int size) throws Exception {
+        if (x>=Count)
+            throw new Exception("GraphDraw: index (x) out bounds! Count is "+Count+". Requested x is "+x+".");
+        if (y>=Count)
+            throw new Exception("GraphDraw: index (y) out bounds! Count is "+Count+". Requested y is "+y+".");
         LinkData[x][y]=size;
     }
     
@@ -104,8 +124,13 @@ public class GraphDraw<T> {
      * @param x Index of first node
      * @param y Index of second node
      * @return Size between nodes
+     * @throws Exception
      */
-    public int GetLink(int x, int y) {
+    public int GetLink(int x, int y) throws Exception {
+        if (x>=Count)
+            throw new Exception("GraphDraw: index (x) out bounds! Count is "+Count+". Requested x is "+x+".");
+        if (y>=Count)
+            throw new Exception("GraphDraw: index (y) out bounds! Count is "+Count+". Requested y is "+y+".");
         return LinkData[x][y];
     }
 
@@ -113,16 +138,26 @@ public class GraphDraw<T> {
      * @param x Index of first node
      * @param y Index of second node
      * @param size Size between nodes
+     * @throws Exception
      */
-    public void SetLink(int x, int y, int size) {
+    public void SetLink(int x, int y, int size) throws Exception {
+        if (x>=Count)
+            throw new Exception("GraphDraw: index (x) out bounds! Count is "+Count+". Requested x is "+x+".");
+        if (y>=Count)
+            throw new Exception("GraphDraw: index (y) out bounds! Count is "+Count+". Requested y is "+y+".");
         LinkData[x][y]=size;
     }
     
     /** 
      * @param x Index of first node
      * @param y Index of second node
+     * @throws Exception
      */
-    public void DelLink(int x, int y) {
+    public void DelLink(int x, int y) throws Exception {
+        if (x>=Count)
+            throw new Exception("GraphDraw: index (x) out bounds! Count is "+Count+". Requested x is "+x+".");
+        if (y>=Count)
+            throw new Exception("GraphDraw: index (y) out bounds! Count is "+Count+". Requested y is "+y+".");
         LinkData[x][y]=0;
     }
 
@@ -210,16 +245,22 @@ public class GraphDraw<T> {
         draw();
     }
 
-    public void TextOut() {
-        System.out.printf("Таблица смежности:\n");
-        for (int i_x=0; i_x<this.Limit; ++i_x) {
-            for (int i_y=0; i_y<this.Limit; ++i_y)
-                System.out.printf("%4s ", LinkData[i_x][i_y]);
-            System.out.printf("\n");
+    public void TextOut() throws Exception {
+        // Раскомментируйте что работает. Должно исправить вывод кириллицы в консоль.
+        PrintStream printStream = new PrintStream(System.out, true, "UTF-8");
+        //PrintStream printStream = new PrintStream(System.out, true, "Windows-1251");
+        //PrintStream printStream = new PrintStream(System.out, true, "cp866");
+        printStream.printf("Количество вершин: %s.\n", Count);
+        printStream.printf("Таблица смежности:\n");
+        for (int i_x=0; i_x<Count; ++i_x) {
+            printStream.printf("%s | ", i_x);
+            for (int i_y=0; i_y<Count; ++i_y)
+                printStream.printf("%4s ", LinkData[i_x][i_y]);
+            printStream.printf("\n");
         }
-        System.out.printf("Вывод точек (их данных):\n");
+        printStream.printf("Вывод точек (их данных):\n");
         for (int i=0; i<PointsCount(); i++)
-            System.out.printf("Точка %2s: %s\n", i, (GetPoint(i) != null) ? GetPoint(i).toString() : "none");
+            printStream.printf("Точка %2s: %s\n", i, (GetPoint(i) != null) ? GetPoint(i).toString() : "none");
     }
 
     public void test_gr() {
