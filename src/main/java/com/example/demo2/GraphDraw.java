@@ -1,6 +1,7 @@
 package com.example.demo2;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
@@ -19,8 +20,10 @@ public class GraphDraw<T> {
     private ArrayList<T> PointData;
     private int Count;
     private int Limit;
-    private double WidthMax=500;
-    private double HeightMax=500;
+    final private double WidthMax=300;
+    final private double HeightMax=300;
+    private double Width=WidthMax;
+    private double Height=HeightMax;
 
     //Data where to draw
     private Pane GraphOverlay;
@@ -28,57 +31,23 @@ public class GraphDraw<T> {
     //Data with drawn objects
     // TODO: Keep lines and nodes in different lists and make them gettable
     private Node[][] LinkNodes;
-    private Node[] CircleNodes;
-    
-    private void DrawNode(Node node) {
-        GraphOverlay.getChildren().add(node);
-        GraphOverlay.setMinSize(WidthMax, HeightMax);
-    }
+    private Circle[] CircleNodes;
 
     /** 
      * @param overlay Pane where graphs will be rendered
      * @param limit Limit of graph nodes
      */
     public GraphDraw(Pane overlay, int limit) {
+        Limit=limit;
         //Set draw data
         GraphOverlay=overlay;
         //Set nodes data (keep lines and circles)
         LinkNodes=new Node[Limit][Limit];
-        CircleNodes=new Node[Limit];
+        CircleNodes=new Circle[Limit];
         //Set default zero data
         Count=0;
-        Limit=limit;
         LinkData=new int[Limit][Limit];
         PointData=new ArrayList<T>(Limit);
-    }
-    
-    private Circle DrawCircle(double x, double y, double size, Color color, double StrokeSize, Color StrokeColor) {
-        WidthMax = Double.max(WidthMax, x+size*2);
-        HeightMax = Double.max(HeightMax, y+size*2);
-        Circle circle = new Circle(size);
-        circle.setFill(color);
-        circle.setStrokeWidth(StrokeSize);
-        circle.setStroke(StrokeColor);
-        circle.relocate(x, y);
-        return circle;
-    }
-    
-    private Line DrawLine(double x1, double y1, double x2, double y2, double size, Color color) {
-        WidthMax = Double.max(WidthMax,  Double.max(x1, x2));
-        HeightMax = Double.max(HeightMax,  Double.max(y1, y2));
-        Line line = new Line(x1, y1, x2, y2);
-        line.setStrokeWidth(size);
-        line.setStroke(color);
-        return line;
-    }
-
-    private Arrow DrawArrow(double x1, double y1, double x2, double y2, double size, Color color) {
-        WidthMax = Double.max(WidthMax,  Double.max(x1, x2));
-        HeightMax = Double.max(HeightMax,  Double.max(y1, y2));
-        Arrow arrow = new Arrow(x1, y1, x2, y2);
-        arrow.setStrokeWidth(size);
-        arrow.setStroke(color);
-        return arrow;
     }
     
     /** 
@@ -157,19 +126,88 @@ public class GraphDraw<T> {
         LinkData[x][y]=0;
     }
 
+    /** 
+     * Clear everything
+     */
+    public void Clear() {
+        this.ClearRender();
+        Count=0;
+        LinkData=new int[Limit][Limit];
+        PointData.clear();
+    }
+
+    /*
+        Draw part. There are all draw functions.
+    */
+
+    private void DrawNode(Node node) {
+        GraphOverlay.getChildren().add(node);
+        GraphOverlay.setMinSize(Width, Height);
+    }
+    
+    private Circle DrawCircle(double x, double y, double size, Color color, double StrokeSize, Color StrokeColor) {
+        Width = Double.max(WidthMax, x+size*2);
+        Height = Double.max(HeightMax, y+size*2);
+        Circle circle = new Circle(x, y, size);
+        circle.setFill(color);
+        circle.setStrokeWidth(StrokeSize);
+        circle.setStroke(StrokeColor);
+        return circle;
+    }
+    
+    private Line DrawLine(double x1, double y1, double x2, double y2, double size, Color color) {
+        Width = Double.max(WidthMax,  Double.max(x1, x2));
+        Height = Double.max(HeightMax,  Double.max(y1, y2));
+        Line line = new Line(x1, y1, x2, y2);
+        line.setStrokeWidth(size);
+        line.setStroke(color);
+        return line;
+    }
+
+    private Arrow DrawArrow(double x1, double y1, double x2, double y2, double size, Color color) {
+        Width = Double.max(WidthMax,  Double.max(x1, x2));
+        Height = Double.max(HeightMax,  Double.max(y1, y2));
+        Arrow arrow = new Arrow(x1, y1, x2, y2);
+        arrow.setStrokeWidth(size);
+        arrow.setStroke(color);
+        return arrow;
+    }
+
+    private void draw() {
+        MouseGestures mg = new MouseGestures();
+        for (Node[] nodes: LinkNodes)
+            for (Node node: nodes)
+                if (node != null) {
+                    mg.makeDraggle(node);
+                    DrawNode(node);
+                }
+        for (Node node: CircleNodes)
+            if (node != null) {
+                mg.makeDraggle(node);
+                DrawNode(node);
+            }
+    }
+
     private void RenderStupid() {
-        int DivX=(int)this.WidthMax/this.Limit, DivY=(int)this.HeightMax/this.Limit;
-        for (int i_x=0; i_x<this.Limit; ++i_x) {
-            for (int i_y=0; i_y<this.Limit; ++i_y) {
-                if (LinkData[i_x][i_y]!=0)
-                    DrawArrow((i_x+1)*DivX-DivX/2, (i_y+1)*DivY-DivY/2, 300, 300, 8, Color.BLACK);
+        Random rand = new Random();
+        for (int i=0; i<Count; i++) {
+            double new_x=rand.nextDouble()*HeightMax, new_y=rand.nextDouble()*WidthMax;
+            CircleNodes[i]=DrawCircle(new_x, new_y, 25, Color.ORANGE, 0.5, Color.BLUE);
+        }
+        for (int i_x=0; i_x<Count; ++i_x) {
+            for (int i_y=0; i_y<Count; ++i_y) {
+                if (LinkData[i_x][i_y]!=0) {
+                    LinkNodes[i_x][i_y]=DrawArrow(CircleNodes[i_x].getCenterX(), CircleNodes[i_x].getCenterY(), CircleNodes[i_y].getCenterX(), CircleNodes[i_y].getCenterY(), 8, Color.BLACK);
+                }
             }
         }
     }
 
     // TODO: Implement correct build way
     public void render() {
+        ClearRender();
         this.RenderStupid();
+        draw();
     }
 
     public void TextOut() {
@@ -194,18 +232,7 @@ public class GraphDraw<T> {
         LinkNodes[1][3]=DrawArrow(200, 200, 300, 300, 5, Color.ORANGE);
         LinkNodes[0][2]=DrawArrow(200, 200, 300, 300, 7, Color.RED);
         LinkNodes[4][0]=DrawArrow(200, 200, 300, 300, 1, Color.BROWN);
-        MouseGestures mg = new MouseGestures();
-        for (Node node: CircleNodes)
-            if (node != null) {
-                mg.makeDraggle(node);
-                DrawNode(node);
-            }
-        for (Node[] nodes: LinkNodes)
-            for (Node node: nodes)
-                if (node != null) {
-                    mg.makeDraggle(node);
-                    DrawNode(node);
-                }
+        draw();
     }
 
     /** 
@@ -214,17 +241,7 @@ public class GraphDraw<T> {
     public void ClearRender() {
         GraphOverlay.getChildren().clear();
         LinkNodes = new Node[Limit][Limit];
-        CircleNodes = new Node[Limit];
-    }
-
-    /** 
-     * Clear everything
-     */
-    public void Clear() {
-        this.ClearRender();
-        Count=0;
-        LinkData=new int[Limit][Limit];
-        PointData.clear();
+        CircleNodes = new Circle[Limit];
     }
 
     public static class MouseGestures {
@@ -233,11 +250,11 @@ public class GraphDraw<T> {
         double orgTranslateX, orgTranslateY;
     
         public void makeDraggle(Node node) {
-            node.setOnMousePressed(circleOnMousePressedEventHandler);
-            node.setOnMouseDragged(circleOnMouseDraggedEventHandler);
+            node.setOnMousePressed(OnMousePressedEventHandler);
+            node.setOnMouseDragged(OnMouseDraggedEventHandler);
         }
     
-        EventHandler<MouseEvent> circleOnMousePressedEventHandler = new EventHandler<MouseEvent>() {
+        EventHandler<MouseEvent> OnMousePressedEventHandler = new EventHandler<MouseEvent>() {
     
             @Override
             public void handle(MouseEvent t) {
@@ -256,7 +273,7 @@ public class GraphDraw<T> {
             }
         };
     
-        EventHandler<MouseEvent> circleOnMouseDraggedEventHandler = new EventHandler<MouseEvent>() {
+        EventHandler<MouseEvent> OnMouseDraggedEventHandler = new EventHandler<MouseEvent>() {
     
             @Override
             public void handle(MouseEvent t) {
