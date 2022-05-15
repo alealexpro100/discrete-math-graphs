@@ -54,7 +54,7 @@
                 <MenuItem mnemonicParsing="false" onAction="#onTo12" text="12" />
               </items>
             </MenuButton>
-            <ListView fx:id="ListView1" layoutX="18.0" layoutY="145.0" prefHeight="200.0" prefWidth="233.0" />
+            <ListView fx:id="ListView1" layoutX="18.0" layoutY="145.0" prefHeight="200.0" prefWidth="233.0" style="-fx-font: normal 20px 'serif';" />
       </children>
     </AnchorPane>
   </children>

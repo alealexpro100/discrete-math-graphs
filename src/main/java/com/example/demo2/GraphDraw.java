@@ -21,10 +21,11 @@ public class GraphDraw<T> {
     private ArrayList<T> PointData;
     private int Count;
     private int Limit;
+    final private double margin=20;
+    final private double HeightMax=400;
     final private double WidthMax=300;
-    final private double HeightMax=300;
-    private double Width=WidthMax;
-    private double Height=HeightMax;
+    private double Height=HeightMax-margin;
+    private double Width=WidthMax-margin;
 
     //Data where to draw
     private Pane GraphOverlay;
@@ -177,12 +178,12 @@ public class GraphDraw<T> {
 
     private void DrawNode(Node node) {
         GraphOverlay.getChildren().add(node);
-        GraphOverlay.setMinSize(Width, Height);
+        GraphOverlay.setMinSize(Width+margin, Height+margin);
     }
     
     private Circle DrawCircle(double x, double y, double size, Color color, double StrokeSize, Color StrokeColor) {
-        Width = Double.max(WidthMax, x+size*2);
-        Height = Double.max(HeightMax, y+size*2);
+        Height = Double.max(HeightMax, x+size*2);
+        Width = Double.max(WidthMax, y+size*2);
         Circle circle = new Circle(x, y, size);
         circle.setFill(color);
         circle.setStrokeWidth(StrokeSize);
@@ -191,8 +192,8 @@ public class GraphDraw<T> {
     }
     
     private Line DrawLine(double x1, double y1, double x2, double y2, double size, Color color) {
-        Width = Double.max(WidthMax,  Double.max(x1, x2));
-        Height = Double.max(HeightMax,  Double.max(y1, y2));
+        Height = Double.max(HeightMax,  Double.max(x1, x2));
+        Width = Double.max(WidthMax,  Double.max(y1, y2));
         Line line = new Line(x1, y1, x2, y2);
         line.setStrokeWidth(size);
         line.setStroke(color);
@@ -200,8 +201,8 @@ public class GraphDraw<T> {
     }
 
     private Arrow DrawArrow(double x1, double y1, double x2, double y2, double size, Color color) {
-        Width = Double.max(WidthMax,  Double.max(x1, x2));
-        Height = Double.max(HeightMax,  Double.max(y1, y2));
+        Height = Double.max(HeightMax,  Double.max(x1, x2));
+        Width = Double.max(WidthMax,  Double.max(y1, y2));
         Arrow arrow = new Arrow(x1, y1, x2, y2);
         arrow.setStrokeWidth(size);
         arrow.setStroke(color);
@@ -216,8 +217,9 @@ public class GraphDraw<T> {
                     mg.makeDraggle(node);
                     DrawNode(node);
                 }
-        for (Node node: CircleNodes)
+        for (Circle node: CircleNodes)
             if (node != null) {
+                System.out.println(node.getCenterX()+" "+node.getCenterY());
                 mg.makeDraggle(node);
                 DrawNode(node);
             }
@@ -225,14 +227,25 @@ public class GraphDraw<T> {
 
     private void RenderStupid() {
         Random rand = new Random();
+        double DiffXMin=(WidthMax+margin)/Count,  DiffYMin=(HeightMax+margin)/Count;
         for (int i=0; i<Count; i++) {
-            double new_x=rand.nextDouble()*HeightMax, new_y=rand.nextDouble()*WidthMax;
-            CircleNodes[i]=DrawCircle(new_x, new_y, 25, Color.ORANGE, 0.5, Color.BLUE);
+            double new_x=margin+rand.nextDouble()*(WidthMax-2*margin),
+                new_y=margin+rand.nextDouble()*(HeightMax-2*margin);
+            for (int j=0; j<i; j++)
+                while (Math.abs(new_x-CircleNodes[j].getCenterX())<DiffXMin || Math.abs(new_y-CircleNodes[j].getCenterY())<DiffYMin) {
+                    new_x=margin+rand.nextDouble()*(WidthMax-2*margin);
+                    new_y=margin+rand.nextDouble()*(HeightMax-2*margin);
+                }
+            CircleNodes[i]=DrawCircle(new_x, new_y, 15, Color.ORANGE, 0.5, Color.BLUE);
         }
         for (int i_x=0; i_x<Count; ++i_x) {
             for (int i_y=0; i_y<Count; ++i_y) {
                 if (LinkData[i_x][i_y]!=0) {
-                    LinkNodes[i_x][i_y]=DrawArrow(CircleNodes[i_x].getCenterX(), CircleNodes[i_x].getCenterY(), CircleNodes[i_y].getCenterX(), CircleNodes[i_y].getCenterY(), 8, Color.BLACK);
+                    LinkNodes[i_x][i_y]=DrawArrow(CircleNodes[i_x].getCenterX()+CircleNodes[i_x].getStrokeWidth(), 
+                        CircleNodes[i_x].getCenterY()+CircleNodes[i_x].getStrokeWidth(), 
+                        CircleNodes[i_y].getCenterX()+CircleNodes[i_y].getStrokeWidth(), 
+                        CircleNodes[i_y].getCenterY()+CircleNodes[i_y].getStrokeWidth(), 
+                        4, Color.BLACK);
                 }
             }
         }

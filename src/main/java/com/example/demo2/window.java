@@ -3,6 +3,7 @@ package com.example.demo2;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -42,6 +43,7 @@ public class window extends Application {
             stage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader(window.class.getResource(fileName));
         Scene scene = new Scene(fxmlLoader.load());
+        stage.getIcons().add(new Image(window.class.getResourceAsStream("logo.png")));
         stage.setTitle(titleName);
         stage.setResizable(false);
         stage.setScene(scene);
