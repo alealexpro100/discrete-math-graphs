@@ -1,9 +1,6 @@
 package com.example.demo2;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class GraphPerformancesSingleton {
     private static GraphPerformancesSingleton instance;
@@ -18,7 +15,7 @@ public class GraphPerformancesSingleton {
         List<List<Integer>> list = new ArrayList<>(Collections.nCopies(n, new ArrayList<>()));
         var matrix = (List<List<Integer>>)mt;
         for (int i = 0; i < matrix.size(); ++i) {
-            for (int j = 0; j < matrix.get(i).size(); ++i)
+            for (int j = 0; j < matrix.get(i).size(); ++j)
                 if (matrix.get(i).get(j) == 1)
                     list.get(i).add(j);
 
@@ -53,6 +50,22 @@ public class GraphPerformancesSingleton {
         return (List<List<Integer>>)mt;
     }
 
+    public List<List<To>> adjacencyMatrixToWeightedList(Object mt, int n) {
+        List<List<To>> list = new ArrayList<>(n);
 
+        var matrix = (List<List<Integer>>)mt;
+
+        for (int i = 0; i < matrix.size(); ++i) {
+            list.add(new ArrayList<>());
+            for (int j = 0; j < matrix.get(i).size(); ++j) {
+                if (matrix.get(i).get(j) != 0) {
+                    list.get(i).add(new To(j, matrix.get(i).get(j)));
+                }
+            }
+        }
+        return list;
+    }
+
+    public List<List<To>> getWeightedList(Object mt) {return (List<List<To>>)mt;}
 
 }
