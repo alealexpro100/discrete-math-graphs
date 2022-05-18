@@ -243,12 +243,77 @@ public class ListGraph implements Tasks{
 
     @Override
     public List<Integer> encodeTree(Object graph, int n) {
-        return null;
+        List<List<Integer>> list = singleton.getList(graph);
+        List<Integer> ans = new ArrayList<>();
+        for (int k = 0; k < n - 2; ++k) {
+            for (int v = 0; v < n; ++v) {
+                if (list.get(v).size() == 1) {
+                    int prev = list.get(v).get(0);
+                    ans.add(prev);
+                    list.get(v).remove(Integer.valueOf(prev));
+                    list.get(prev).remove(Integer.valueOf(v));
+
+
+                }
+            }
+        }
+        return ans;
     }
 
     @Override
-    public Object decodeTree(List<Integer> path, int n) {
-        return null;
+    public Object decodeTree(List<Integer> prufer, int n) {
+        List<List<Integer>> list = new ArrayList<>(Collections.nCopies(n, new ArrayList<>()));
+        int vertices = n + 2;
+        int[] vertex_set = new int[vertices];
+
+        // Initialize the array of vertices
+        for (int i = 0; i < vertices; i++)
+            vertex_set[i] = 0;
+
+        // Number of occurrences of vertex in code
+        for (int i = 0; i < vertices - 2; i++)
+            vertex_set[prufer.get(i) - 1] += 1;
+
+        System.out.print("\nThe edge set E(G) is :\n");
+
+        // Find the smallest label not present in
+        // prufer[].
+        int j = 0;
+        for (int i = 0; i < vertices - 2; i++) {
+            for (j = 0; j < vertices; j++) {
+                // If j+1 is not present in prufer set
+                if (vertex_set[j] == 0) {
+                    // Remove from Prufer set and print
+                    // pair.
+                    vertex_set[j] = -1;
+                    list.get(j + 1).add(i);
+                    list.get(i).add(j + 1);
+                    /*System.out.print("(" + (j + 1) + ", "
+                            + prufer.get(i) + ") ");*/
+
+                    vertex_set[prufer.get(i) - 1]--;
+
+                    break;
+                }
+            }
+        }
+
+        j = 0;
+        int add1 = -1, add2 = -1;
+        // For the last element
+        for (int i = 0; i < vertices; i++) {
+            if (vertex_set[i] == 0 && j == 0) {
+                add1 = i + 1;
+                j++;
+            }
+            else if (vertex_set[i] == 0 && j == 1)
+                add2 = i + 1;
+        }
+        if (add1 != -1 && add2 != -1) {
+            list.get(add1).add(add2);
+            list.get(add2).add(add1);
+        }
+        return list;
     }
 
     @Override
