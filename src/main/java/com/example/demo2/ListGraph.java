@@ -93,8 +93,31 @@ public class ListGraph implements Tasks{
 
     @Override
     public boolean checkDFSPath(List<Integer> path, Object graph, int n) {
+        if (n != 0 && path.size() == 0)
+            return false;
         List<List<Integer>> list = singleton.getList(graph);
-        return false;
+        LinkedList<Integer> stack = new LinkedList<>();
+
+        int cntComp = 1;
+        boolean[] visited = new boolean[n];
+        boolean[][] contain  = new boolean[n][n];
+        for (int i = 0; i < n; ++i) {
+            for (var c : list.get(i))
+                contain[i][c] = true;
+        }
+        stack.add(path.get(0));
+        visited[path.get(0)] = true;
+        for (int i = 1; i < path.size(); ++i) {
+            while (path.size() > 0 && !contain[stack.getLast()][path.get(i)])
+                stack.removeLast();
+            if (path.size() == 0)
+                cntComp++;
+            if (visited[path.get(i)])
+                return false;
+            stack.add(path.get(i));
+            visited[path.get(i)] = true;
+        }
+        return getCntConnectedComponents(graph, n) == cntComp;
     }
 
     @Override
@@ -112,8 +135,31 @@ public class ListGraph implements Tasks{
 
     @Override
     public boolean checkBFSPath(List<Integer>path, Object graph, int n) {
+        if (n != 0 && path.size() == 0)
+            return false;
         List<List<Integer>> list = singleton.getList(graph);
-        return false;
+        LinkedList<Integer> queue = new LinkedList<>();
+
+        int cntComp = 1;
+        boolean[] visited = new boolean[n];
+        boolean[][] contain  = new boolean[n][n];
+        for (int i = 0; i < n; ++i) {
+            for (var c : list.get(i))
+                contain[i][c] = true;
+        }
+        queue.add(path.get(0));
+        visited[path.get(0)] = true;
+        for (int i = 1; i < path.size(); ++i) {
+            while (path.size() > 0 && !contain[queue.getFirst()][path.get(i)])
+                queue.removeFirst();
+            if (path.size() == 0)
+                cntComp++;
+            if (visited[path.get(i)])
+                return false;
+            queue.add(path.get(i));
+            visited[path.get(i)] = true;
+        }
+        return getCntConnectedComponents(graph, n) == cntComp;
     }
 
     @Override
