@@ -36,6 +36,26 @@ public class ListGraph implements Tasks{
         }
 
     }
+
+    boolean dfsColor(List<List<Integer>> list, int v, int[] color) {
+        boolean ret = true;
+        for (var to : list.get(v)) {
+            if (color[v] == color[to]) {
+                return false;
+            }
+            if (color[to] == 0) {
+                int pr = -1;
+                if (color[v] == 1)
+                    pr = 2;
+                else
+                    pr = 1;
+                color[to] = pr;
+                ret &= dfsColor(list, to ,color);
+            }
+
+        }
+        return ret;
+    }
     @Override
     public List<Integer> getVertexPower(Object graph, int n) {
         List<List<Integer>> list = singleton.getList(graph);
@@ -71,12 +91,34 @@ public class ListGraph implements Tasks{
     @Override
     public boolean checkBipartite(Object graph, int n) {
         List<List<Integer>> list = singleton.getList(graph);
-        return false;
+        int[] color = new int[n];
+        boolean ans = true;
+        for (int i = 0; i < n; ++i) {
+            if (color[i] == 0)
+                ans &= dfsColor(list, i, color);
+        }
+        return ans;
     }
 
     @Override
     public boolean checkFullBipartite(Object graph, int n) {
         List<List<Integer>> list = singleton.getList(graph);
+        int[] color = new int[n];
+        boolean ans = true;
+        int m = 0;
+        int col1 = 0, col2 = 0;
+        for (int i = 0; i < n; ++i) {
+            m += list.get(i).size();
+            if (color[i] == 1)
+                col1++;
+            if (color[i] == 2)
+                col2++;
+            if (color[i] == 0)
+                ans &= dfsColor(list, i, color);
+        }
+        m /= 2;
+        if (m == col1 * col2 && getCntConnectedComponents(graph, n) == 1)
+            return ans;
         return false;
     }
 
