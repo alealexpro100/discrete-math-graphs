@@ -9,8 +9,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
-import javafx.event.EventHandler;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 
 /**
  * The GraphDraw class provides handy way to render graphs using standard library
@@ -31,9 +33,10 @@ public class GraphDraw<T> {
     private Pane GraphOverlay;
 
     //Data with drawn objects
-    // TODO: Keep lines and nodes in different lists and make them gettable
     private Node[][] LinkNodes;
+    private Text[][] LinkTextNodes;
     private Circle[] CircleNodes;
+    private Text[] CircleTextNodes;
 
     /** 
      * @param overlay Pane where graphs will be rendered
@@ -46,6 +49,8 @@ public class GraphDraw<T> {
         //Set nodes data (keep lines and circles)
         LinkNodes=new Node[Limit][Limit];
         CircleNodes=new Circle[Limit];
+        LinkTextNodes=new Text[Limit][Limit];
+        CircleTextNodes=new Text[Limit];
         //Set default zero data
         Count=0;
         LinkData=new int[Limit][Limit];
@@ -85,7 +90,7 @@ public class GraphDraw<T> {
     
     /** 
      * @param Id Position of needed node
-     * @return T Return requested node
+     * @return (T) Requested node
      * @throws Exception
      */
     public T GetPoint(int Id) throws Exception {
@@ -180,6 +185,17 @@ public class GraphDraw<T> {
         GraphOverlay.getChildren().add(node);
         GraphOverlay.setMinSize(Width+margin, Height+margin);
     }
+
+    private Text DrawText(double x, double y, double size, Color color, double StrokeSize, Color StrokeColor, String text_string) {
+        Height = Double.max(HeightMax, x+size*2);
+        Width = Double.max(WidthMax, y+size*2);
+        Text text = new Text(x-size/3, y+size/3, text_string);
+        text.setFill(color);
+        text.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, size));
+        text.setStrokeWidth(StrokeSize);
+        text.setStroke(StrokeColor);
+        return text;
+    }
     
     private Circle DrawCircle(double x, double y, double size, Color color, double StrokeSize, Color StrokeColor) {
         Height = Double.max(HeightMax, x+size*2);
@@ -210,54 +226,125 @@ public class GraphDraw<T> {
     }
 
     private void draw() {
-        MouseGestures mg = new MouseGestures();
         for (Node[] nodes: LinkNodes)
             for (Node node: nodes)
                 if (node != null) {
-                    mg.makeDraggle(node);
+                    DrawNode(node);
+                }
+        for (Text[] nodes: LinkTextNodes)
+            for (Text node: nodes)
+                if (node != null) {
                     DrawNode(node);
                 }
         for (Circle node: CircleNodes)
             if (node != null) {
-                System.out.println(node.getCenterX()+" "+node.getCenterY());
-                mg.makeDraggle(node);
+                DrawNode(node);
+            }
+        for (Text node: CircleTextNodes)
+            if (node != null) {
                 DrawNode(node);
             }
     }
 
-    private void RenderStupid() {
+    public void RenderStupid() {
+        ClearRender();
         Random rand = new Random();
         double DiffXMin=(WidthMax+margin)/Count,  DiffYMin=(HeightMax+margin)/Count;
+        double MinDist=Math.sqrt(Math.pow(DiffXMin, 2)+Math.pow(DiffYMin, 2));
         for (int i=0; i<Count; i++) {
             double new_x=margin+rand.nextDouble()*(WidthMax-2*margin),
                 new_y=margin+rand.nextDouble()*(HeightMax-2*margin);
-            for (int j=0; j<i; j++)
-                while (Math.abs(new_x-CircleNodes[j].getCenterX())<DiffXMin || Math.abs(new_y-CircleNodes[j].getCenterY())<DiffYMin) {
+            for (int j=0; j<i; j++) {
+                while (Math.abs(new_x+CircleNodes[j].getCenterX())<DiffXMin || Math.abs(new_y+CircleNodes[j].getCenterY())<DiffYMin
+                 || Math.sqrt(Math.pow(new_x-CircleNodes[j].getCenterX(), 2)+Math.pow(new_y-CircleNodes[j].getCenterY(), 2))<MinDist) {
                     new_x=margin+rand.nextDouble()*(WidthMax-2*margin);
                     new_y=margin+rand.nextDouble()*(HeightMax-2*margin);
                 }
+            }
+            CircleTextNodes[i]=DrawText(new_x, new_y, 20, Color.BLACK, 1, Color.WHITE, Integer.toString(i));
             CircleNodes[i]=DrawCircle(new_x, new_y, 15, Color.ORANGE, 0.5, Color.BLUE);
         }
         for (int i_x=0; i_x<Count; ++i_x) {
             for (int i_y=0; i_y<Count; ++i_y) {
                 if (LinkData[i_x][i_y]!=0) {
-                    LinkNodes[i_x][i_y]=DrawArrow(CircleNodes[i_x].getCenterX()+CircleNodes[i_x].getStrokeWidth(), 
-                        CircleNodes[i_x].getCenterY()+CircleNodes[i_x].getStrokeWidth(), 
-                        CircleNodes[i_y].getCenterX()+CircleNodes[i_y].getStrokeWidth(), 
-                        CircleNodes[i_y].getCenterY()+CircleNodes[i_y].getStrokeWidth(), 
-                        4, Color.BLACK);
+                    double length_x=CircleNodes[i_x].getCenterX()-CircleNodes[i_y].getCenterX(), length_y=CircleNodes[i_x].getCenterY()-CircleNodes[i_y].getCenterY();
+                    double length=Math.sqrt(Math.pow(length_x,2)+Math.pow(length_y,2));
+                    double x1=CircleNodes[i_x].getCenterX()-(length_x)*CircleNodes[i_x].getRadius()/length,
+                           y1=CircleNodes[i_x].getCenterY()-(length_y)*CircleNodes[i_x].getRadius()/length,
+                           x2=CircleNodes[i_y].getCenterX()+(length_x)*CircleNodes[i_y].getRadius()/length,
+                           y2=CircleNodes[i_y].getCenterY()+(length_y)*CircleNodes[i_y].getRadius()/length;
+                    LinkTextNodes[i_x][i_y]=DrawText((x1+x2)/2, (y1+y2)/2, 30, Color.BLACK, 2, Color.WHITE, Integer.toString(LinkData[i_x][i_y]));
+                    LinkNodes[i_x][i_y]=DrawArrow(x1, y1, x2, y2, 4, Color.BLACK);
                 }
             }
         }
-    }
-
-    // TODO: Implement correct build way
-    public void render() {
-        ClearRender();
-        this.RenderStupid();
         draw();
     }
 
+    /** 
+     * Clear rendered result
+     */
+    public void ClearRender() {
+        GraphOverlay.getChildren().clear();
+        LinkNodes = new Node[Limit][Limit];
+        CircleNodes = new Circle[Limit];
+    }
+
+    /** 
+     * @param Id Position of needed circle node
+     * @return Return requested circle
+     * @throws Exception
+     */
+    public Circle GetNodeCircle(int Id) throws Exception {
+        if (Id>=Count)
+            throw new Exception("GraphDraw: index out bounds! Count is "+Count+". Requested id is "+Id+".");
+        return CircleNodes[Id];
+    }
+
+    /** 
+     * @param x Index of first node
+     * @param y Index of second node
+     * @return Node object (Arrow or Line)
+     * @throws Exception
+     */
+    public Node GetNodeLink(int x, int y) throws Exception {
+        if (x>=Count)
+            throw new Exception("GraphDraw: index (x) out bounds! Count is "+Count+". Requested x (Node) is "+x+".");
+        if (y>=Count)
+            throw new Exception("GraphDraw: index (y) out bounds! Count is "+Count+". Requested y (Node) is "+y+".");
+        return LinkNodes[x][y];
+    }
+
+    /** 
+     * @param Id Position of needed text circle node
+     * @return Return requested text
+     * @throws Exception
+     */
+    public Text GetNodeTextCircle(int Id) throws Exception {
+        if (Id>=Count)
+            throw new Exception("GraphDraw: index out bounds! Count is "+Count+". Requested id is "+Id+".");
+        return CircleTextNodes[Id];
+    }
+
+    /** 
+     * @param x Index of first node
+     * @param y Index of second node
+     * @return Text object (Arrow or Line)
+     * @throws Exception
+     */
+    public Text GetNodeTextLink(int x, int y) throws Exception {
+        if (x>=Count)
+            throw new Exception("GraphDraw: index (x) out bounds! Count is "+Count+". Requested x (Node) is "+x+".");
+        if (y>=Count)
+            throw new Exception("GraphDraw: index (y) out bounds! Count is "+Count+". Requested y (Node) is "+y+".");
+        return LinkTextNodes[x][y];
+    }
+
+    /** 
+     * Output contained information to console.
+     * NOTE: It writes in russian language.
+     * @throws Exception
+     */
     public void TextOut() throws Exception {
         // Раскомментируйте что работает. Должно исправить вывод кириллицы в консоль.
         PrintStream printStream = new PrintStream(System.out, true, "UTF-8");
@@ -276,78 +363,4 @@ public class GraphDraw<T> {
             printStream.printf("Точка %2s: %s\n", i, (GetPoint(i) != null) ? GetPoint(i).toString() : "none");
     }
 
-    public void test_gr() {
-        this.ClearRender();
-        CircleNodes[0]=DrawCircle(400, 400, 50, Color.ORANGE, 4, Color.BLUE);
-        CircleNodes[1]=DrawCircle(150, 150, 50, Color.RED, 4, Color.BLUE);
-        DrawLine(200, 200, 150, 150, 20, Color.CYAN).setStrokeWidth(20);
-        LinkNodes[0][0]=DrawArrow(200, 200, 300, 300, 10, Color.PURPLE);
-        LinkNodes[2][1]=DrawArrow(200, 200, 300, 300, 2, Color.CYAN); // Самый удачный размер
-        LinkNodes[1][3]=DrawArrow(200, 200, 300, 300, 5, Color.ORANGE);
-        LinkNodes[0][2]=DrawArrow(200, 200, 300, 300, 7, Color.RED);
-        LinkNodes[4][0]=DrawArrow(200, 200, 300, 300, 1, Color.BROWN);
-        draw();
-    }
-
-    /** 
-     * Clear rendered result
-     */
-    public void ClearRender() {
-        GraphOverlay.getChildren().clear();
-        LinkNodes = new Node[Limit][Limit];
-        CircleNodes = new Circle[Limit];
-    }
-
-    public static class MouseGestures {
-
-        double orgSceneX, orgSceneY;
-        double orgTranslateX, orgTranslateY;
-    
-        public void makeDraggle(Node node) {
-            node.setOnMousePressed(OnMousePressedEventHandler);
-            node.setOnMouseDragged(OnMouseDraggedEventHandler);
-        }
-    
-        EventHandler<MouseEvent> OnMousePressedEventHandler = new EventHandler<MouseEvent>() {
-    
-            @Override
-            public void handle(MouseEvent t) {
-
-                if (t.getSource() instanceof Circle) {
-                    System.out.println("Pressing circle.");
-                }
-    
-                orgSceneX = t.getSceneX();
-                orgSceneY = t.getSceneY();
-    
-                Node p = ((Node) (t.getSource()));
-    
-                orgTranslateX = p.getTranslateX();
-                orgTranslateY = p.getTranslateY();
-            }
-        };
-    
-        EventHandler<MouseEvent> OnMouseDraggedEventHandler = new EventHandler<MouseEvent>() {
-    
-            @Override
-            public void handle(MouseEvent t) {
-
-                if (t.getSource() instanceof Circle) {
-                    System.out.println("Moving circle.");
-                }
-    
-                double offsetX = t.getSceneX() - orgSceneX;
-                double offsetY = t.getSceneY() - orgSceneY;
-    
-                double newTranslateX = orgTranslateX + offsetX;
-                double newTranslateY = orgTranslateY + offsetY;
-    
-                Node p = ((Node) (t.getSource()));
-    
-                p.setTranslateX(newTranslateX);
-                p.setTranslateY(newTranslateY);
-    
-            }
-        };
-    }
 }

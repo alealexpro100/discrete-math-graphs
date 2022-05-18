@@ -3,7 +3,11 @@ package com.example.demo2;
 
 import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
-
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.event.EventHandler;
+import javafx.scene.Node;
+import javafx.scene.input.MouseEvent;
 
 public class Example extends goToButtons {
 
@@ -74,6 +78,62 @@ public class Example extends goToButtons {
         //Вывод данных объекта в консоль (таблица смежности и значения точек).
         gd.TextOut();
         //Рендер. Пока не работает.
-        gd.render();
+        gd.RenderStupid();
+        MouseGestures mg = new MouseGestures();
+        gd.GetNodeCircle(2).setFill(Color.AZURE);
+        mg.makeDraggle(gd.GetNodeCircle(2));
+    }
+
+    public static class MouseGestures {
+
+        double orgSceneX, orgSceneY;
+        double orgTranslateX, orgTranslateY;
+    
+        public void makeDraggle(Node node) {
+            node.setOnMousePressed(OnMousePressedEventHandler);
+            node.setOnMouseDragged(OnMouseDraggedEventHandler);
+        }
+    
+        EventHandler<MouseEvent> OnMousePressedEventHandler = new EventHandler<MouseEvent>() {
+    
+            @Override
+            public void handle(MouseEvent t) {
+
+                if (t.getSource() instanceof Circle) {
+                    System.out.println("Pressing circle.");
+                }
+    
+                orgSceneX = t.getSceneX();
+                orgSceneY = t.getSceneY();
+    
+                Node p = ((Node) (t.getSource()));
+    
+                orgTranslateX = p.getTranslateX();
+                orgTranslateY = p.getTranslateY();
+            }
+        };
+    
+        EventHandler<MouseEvent> OnMouseDraggedEventHandler = new EventHandler<MouseEvent>() {
+    
+            @Override
+            public void handle(MouseEvent t) {
+
+                if (t.getSource() instanceof Circle) {
+                    System.out.println("Moving circle.");
+                }
+    
+                double offsetX = t.getSceneX() - orgSceneX;
+                double offsetY = t.getSceneY() - orgSceneY;
+    
+                double newTranslateX = orgTranslateX + offsetX;
+                double newTranslateY = orgTranslateY + offsetY;
+    
+                Node p = ((Node) (t.getSource()));
+    
+                p.setTranslateX(newTranslateX);
+                p.setTranslateY(newTranslateY);
+    
+            }
+        };
     }
 }

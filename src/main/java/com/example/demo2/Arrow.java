@@ -20,8 +20,8 @@ public class Arrow extends Group {
         this(new Line(x1, y1, x2, y2), new Line(), new Line());
     }
 
-    private static double arrowLength = 20;
-    private static double arrowWidth = 20;
+    private static double arrowLength = 8;
+    private static double arrowWidth = 14;
 
     private Arrow(Line line, Line arrow1, Line arrow2) {
         super(line, arrow1, arrow2);
