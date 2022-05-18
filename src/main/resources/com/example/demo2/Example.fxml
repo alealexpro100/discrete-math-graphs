@@ -16,6 +16,23 @@
         <Menu mnemonicParsing="false" text="Menu">
           <items>
             <MenuItem mnemonicParsing="false" onAction="#onToMainMenu" text="Main Menu" />
+                  <Menu mnemonicParsing="false" style="-fx-font: normal 20px 'serif';" text="Tasks">
+                    <items>
+                      <MenuItem mnemonicParsing="false" onAction="#onTo1" style="-fx-font: normal 20px 'serif';" text="0" />
+                      <MenuItem mnemonicParsing="false" onAction="#onTo1" style="-fx-font: normal 20px 'serif';" text="1" />
+                      <MenuItem mnemonicParsing="false" onAction="#onTo2" style="-fx-font: normal 20px 'serif';" text="2" />
+                      <MenuItem mnemonicParsing="false" onAction="#onTo3" style="-fx-font: normal 20px 'serif';" text="3" />
+                      <MenuItem mnemonicParsing="false" onAction="#onTo4" style="-fx-font: normal 20px 'serif';" text="4" />
+                      <MenuItem mnemonicParsing="false" onAction="#onTo5" style="-fx-font: normal 20px 'serif';" text="5" />
+                      <MenuItem mnemonicParsing="false" onAction="#onTo6" style="-fx-font: normal 20px 'serif';" text="6" />
+                      <MenuItem mnemonicParsing="false" onAction="#onTo7" style="-fx-font: normal 20px 'serif';" text="7" />
+                      <MenuItem mnemonicParsing="false" onAction="#onTo8" style="-fx-font: normal 20px 'serif';" text="8" />
+                      <MenuItem mnemonicParsing="false" onAction="#onTo9" style="-fx-font: normal 20px 'serif';" text="9" />
+                      <MenuItem mnemonicParsing="false" onAction="#onTo10" style="-fx-font: normal 20px 'serif';" text="10" />
+                      <MenuItem mnemonicParsing="false" onAction="#onTo11" style="-fx-font: normal 20px 'serif';" text="11" />
+                      <MenuItem mnemonicParsing="false" onAction="#onTo12" style="-fx-font: normal 20px 'serif';" text="12" />
+                    </items>
+                  </Menu>
             <MenuItem mnemonicParsing="false" onAction="#onClickExit" text="Quit" />
           </items>
         </Menu>

@@ -5,7 +5,6 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -20,6 +19,23 @@
         <Menu mnemonicParsing="false" text="Menu">
           <items>
             <MenuItem mnemonicParsing="false" onAction="#onToMainMenu" text="Main Menu" />
+                  <Menu mnemonicParsing="false" style="-fx-font: normal 20px 'serif';" text="Tasks">
+                    <items>
+                      <MenuItem mnemonicParsing="false" onAction="#onTo1" style="-fx-font: normal 20px 'serif';" text="0" />
+                      <MenuItem mnemonicParsing="false" onAction="#onTo1" style="-fx-font: normal 20px 'serif';" text="1" />
+                      <MenuItem mnemonicParsing="false" onAction="#onTo2" style="-fx-font: normal 20px 'serif';" text="2" />
+                      <MenuItem mnemonicParsing="false" onAction="#onTo3" style="-fx-font: normal 20px 'serif';" text="3" />
+                      <MenuItem mnemonicParsing="false" onAction="#onTo4" style="-fx-font: normal 20px 'serif';" text="4" />
+                      <MenuItem mnemonicParsing="false" onAction="#onTo5" style="-fx-font: normal 20px 'serif';" text="5" />
+                      <MenuItem mnemonicParsing="false" onAction="#onTo6" style="-fx-font: normal 20px 'serif';" text="6" />
+                      <MenuItem mnemonicParsing="false" onAction="#onTo7" style="-fx-font: normal 20px 'serif';" text="7" />
+                      <MenuItem mnemonicParsing="false" onAction="#onTo8" style="-fx-font: normal 20px 'serif';" text="8" />
+                      <MenuItem mnemonicParsing="false" onAction="#onTo9" style="-fx-font: normal 20px 'serif';" text="9" />
+                      <MenuItem mnemonicParsing="false" onAction="#onTo10" style="-fx-font: normal 20px 'serif';" text="10" />
+                      <MenuItem mnemonicParsing="false" onAction="#onTo11" style="-fx-font: normal 20px 'serif';" text="11" />
+                      <MenuItem mnemonicParsing="false" onAction="#onTo12" style="-fx-font: normal 20px 'serif';" text="12" />
+                    </items>
+                  </Menu>
             <MenuItem mnemonicParsing="false" onAction="#onClickExit" text="Quit" />
           </items>
         </Menu>
@@ -27,34 +43,18 @@
     </MenuBar>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
-            <Button layoutX="104.0" layoutY="104.0" mnemonicParsing="false" onAction="#onToExample" text="Example" />
             <ImageView fitHeight="350.0" fitWidth="340.0" layoutX="286.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@logo.png" />
                </image>
             </ImageView>
-            <Label layoutX="18.0" layoutY="17.0" prefHeight="20.0" prefWidth="233.0" text="Выбор задачи">
+            <Label layoutX="18.0" layoutY="107.0" prefHeight="20.0" prefWidth="233.0" text="Выбор задачи">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <MenuButton layoutX="18.0" layoutY="51.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="233.0" style="-fx-font: normal 20px 'serif';" text="1">
-              <items>
-                <MenuItem mnemonicParsing="false" onAction="#onTo1" text="1" />
-                <MenuItem mnemonicParsing="false" onAction="#onTo2" text="2" />
-                <MenuItem mnemonicParsing="false" onAction="#onTo3" text="3" />
-                <MenuItem mnemonicParsing="false" onAction="#onTo4" text="4" />
-                <MenuItem mnemonicParsing="false" onAction="#onTo5" text="5" />
-                <MenuItem mnemonicParsing="false" onAction="#onTo6" text="6" />
-                <MenuItem mnemonicParsing="false" onAction="#onTo7" text="7" />
-                <MenuItem mnemonicParsing="false" onAction="#onTo8" text="8" />
-                <MenuItem mnemonicParsing="false" onAction="#onTo9" text="9" />
-                <MenuItem mnemonicParsing="false" onAction="#onTo10" text="10" />
-                <MenuItem mnemonicParsing="false" onAction="#onTo11" text="11" />
-                <MenuItem mnemonicParsing="false" onAction="#onTo12" text="12" />
-              </items>
-            </MenuButton>
             <ListView fx:id="ListView1" layoutX="18.0" layoutY="145.0" prefHeight="200.0" prefWidth="233.0" style="-fx-font: normal 20px 'serif';" />
+            <Button layoutX="190.0" layoutY="108.0" mnemonicParsing="false" onAction="#onToExample" text="Example" />
       </children>
     </AnchorPane>
   </children>
