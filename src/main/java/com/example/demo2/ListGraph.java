@@ -4,7 +4,9 @@ import java.util.*;
 
 public class ListGraph implements Tasks{
     GraphPerformancesSingleton singleton;
+    final private int INF;
     {
+        INF = 1_000_000_000;
         singleton = GraphPerformancesSingleton.getInstance();
     }
     void dfs(List<List<Integer>> list, int v,  boolean[] visited, List<Integer> path) {
@@ -238,7 +240,24 @@ public class ListGraph implements Tasks{
 
     @Override
     public List<List<Integer>> getShortestPathMatrix(Object graph, int n) {
-        return null;
+        List<List<To>> list = singleton.adjacencyMatrixToWeightedList(graph, n);
+        List<List<Integer>> matrix = new ArrayList<>(Collections.nCopies(n, new ArrayList<>(Collections.nCopies(n, INF))));
+        for (int i = 0; i < n; ++i) {
+            for (var l : list.get(i)) {
+                matrix.get(i).set(l.getTo(), Math.min(matrix.get(i).get(l.getTo()),l.getWeight() ) );
+            }
+        }
+        for (int k = 0; k < n; ++k) {
+            for (int i = 0; i < n; ++i) {
+                for (int j = 0; j < n; ++j) {
+                    int to = matrix.get(i).get(j);
+                    int to2 = matrix.get(i).get(k) + matrix.get(k).get(j);
+                    matrix.get(i).set(j, Math.min(to,to2 ));
+
+                }
+            }
+        }
+        return matrix;
     }
 
     @Override
