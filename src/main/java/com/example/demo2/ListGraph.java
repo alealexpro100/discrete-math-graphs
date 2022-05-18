@@ -253,6 +253,47 @@ public class ListGraph implements Tasks{
 
     @Override
     public List<Integer> paintGraph(Object graph, int n) {
-        return null;
+        List<List<Integer>> adj = singleton.getList(graph);
+        Integer[] result = new Integer[n];
+
+        // Initialize all vertices as unassigned
+        Arrays.fill(result, -1);
+
+        // Assign the first color to first vertex
+        result[0]  = 0;
+
+        // A temporary array to store the available colors. False
+        // value of available[cr] would mean that the color cr is
+        // assigned to one of its adjacent vertices
+        boolean[] available = new boolean[n];
+
+        // Initially, all colors are available
+        Arrays.fill(available, true);
+
+        // Assign colors to remaining V-1 vertices
+        for (int u = 1; u < n; u++)
+        {
+            // Process all adjacent vertices and flag their colors
+            // as unavailable
+            for (int i : adj.get(u)) {
+                if (result[i] != -1)
+                    available[result[i]] = false;
+            }
+
+            // Find the first available color
+            int cr;
+            for (cr = 0; cr < n; cr++){
+                if (available[cr])
+                    break;
+            }
+
+            result[u] = cr; // Assign the found color
+
+            // Reset the values back to true for the next iteration
+            Arrays.fill(available, true);
+        }
+
+        // print the result
+        return Arrays.asList(result);
     }
 }
