@@ -19,7 +19,7 @@ public class MainMenu extends goToButtons {
     void initialize() {
         ObservableList<String> items = FXCollections.observableArrayList();
         for (int i=0; i<13; i++)
-            items.add("Task "+Integer.toString(i));
+            items.add(Integer.toString(i));
         ListView1.setItems(items);
         ListView1.setOnMouseClicked((EventHandler<? super MouseEvent>) new EventHandler<MouseEvent>() {
 

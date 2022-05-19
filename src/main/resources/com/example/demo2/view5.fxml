@@ -2,17 +2,17 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo2.MainMenu">
+<VBox prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo2.view5">
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
@@ -43,18 +43,32 @@
     </MenuBar>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
-            <ImageView fitHeight="350.0" fitWidth="340.0" layoutX="286.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@logo.png" />
-               </image>
-            </ImageView>
-            <Label layoutX="18.0" layoutY="107.0" prefHeight="20.0" prefWidth="233.0" text="Выбор задачи">
+            <Button layoutX="14.0" layoutY="66.0" mnemonicParsing="false" onAction="#onClickUpdateTable" text="Обновить таблицу">
                <font>
-                  <Font size="18.0" />
+                  <Font size="13.0" />
+               </font></Button>
+            <TableView fx:id="tableview1" editable="true" layoutX="14.0" layoutY="116.0" prefHeight="310.0" prefWidth="310.0" />
+            <TextField fx:id="InputPointsCount" layoutX="116.0" layoutY="15.0" />
+            <Label layoutX="14.0" layoutY="18.0" text="Число вершин">
+               <font>
+                  <Font size="13.0" />
+               </font></Label>
+            <Button layoutX="179.0" layoutY="66.0" mnemonicParsing="false" onAction="#onClickCalculate" text="Получить результаты">
+               <font>
+                  <Font size="13.0" />
+               </font></Button>
+            <Label layoutX="466.0" layoutY="12.0" text="Результат">
+               <font>
+                  <Font size="20.0" />
                </font>
             </Label>
-            <ListView fx:id="ListView1" layoutX="18.0" layoutY="145.0" prefHeight="200.0" prefWidth="233.0" style="-fx-font: normal 20px 'serif';" />
-            <Button layoutX="190.0" layoutY="108.0" mnemonicParsing="false" onAction="#onToExample" text="Example" />
+            <TextField fx:id="textfield1" editable="false" layoutX="554.0" layoutY="144.0" prefHeight="25.0" prefWidth="118.0" />
+            <Label layoutX="362.0" layoutY="147.0" prefHeight="17.0" prefWidth="177.0" text="Число компонент связаности">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+            <Separator layoutX="347.0" orientation="VERTICAL" prefHeight="436.0" prefWidth="1.0" />
       </children>
     </AnchorPane>
   </children>
