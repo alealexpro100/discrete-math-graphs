@@ -15,13 +15,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.paint.Color;
 import javafx.scene.control.TextField;
 
-public class view6 extends goToButtons {
-
-    @FXML
-    TextField InputPointsCount;
+public class view11 extends goToButtons {
 
     @FXML
     TextField textfield1;
@@ -32,23 +28,22 @@ public class view6 extends goToButtons {
     @FXML
     private TableView tableview1;
 
-    String[][] points;
-
     @FXML
     void initialize() {
         //Автозапуск после открытия окна.
         tableview1.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY); 
-        InputPointsCount.setText("3");
-        onClickUpdateTable();
     }
 
     @FXML
-    private void onClickUpdateTable() {
-        int PointCount=Integer.parseInt(InputPointsCount.getText());
-        points = new String[PointCount][PointCount];
+    private void onClickCalc() {
+        String code=textfield1.getText();
+
+        int PointCount=4;
+        String[][] points = new String[PointCount][PointCount];
         for (int i = 0; i < PointCount; i++)
             for (int j = 0; j < PointCount; j++)
                 points[i][j]="0";
+        //Here we build table
         ObservableList<String[]> data = FXCollections.observableArrayList();
         data.addAll(Arrays.asList(points));
         tableview1.getItems().clear();
@@ -78,18 +73,5 @@ public class view6 extends goToButtons {
             tableview1.getColumns().add(tc);
         }
         tableview1.setItems(data);
-    }
-
-    @FXML
-    private void onClickCalc() {
-        int PointCount=Integer.parseInt(InputPointsCount.getText());
-        for (int i = 0; i < PointCount; i++) {
-            for (int j = 0; j < PointCount; j++) {
-                System.out.print(points[i][j]+" ");
-            }
-            System.out.print("\n");
-        }
-        label1.setText("empty");
-        label1.setTextFill(Color.GREEN);
     }
 }

@@ -65,11 +65,9 @@ public class Example extends goToButtons {
         //Добавление связи между двумя точками (1-ая опция - 1-ая вершина, 2-ая опция - 2-ая вершина, размер ребра).
         //SetLink и AddLink - одно и то же.
         gd.SetLink(0, 1, 2);
-        gd.SetLink(1, 0, 2);
-        gd.SetLink(2, 1, 4);
-        gd.SetLink(1, 2, 4);
         gd.SetLink(0, 2, 2);
-        gd.SetLink(2, 0, 2);
+        gd.SetLink(1, 0, 4);
+        gd.SetLink(2, 0, 4);
         try {
             gd.SetLink(4, 4, 1);
         } catch (Exception e) {
@@ -78,10 +76,13 @@ public class Example extends goToButtons {
         //Вывод данных объекта в консоль (таблица смежности и значения точек).
         gd.TextOut();
         //Рендер. Пока не работает.
-        gd.RenderStupid();
-        MouseGestures mg = new MouseGestures();
-        gd.GetNodeCircle(2).setFill(Color.AZURE);
-        mg.makeDraggle(gd.GetNodeCircle(2));
+        //Простой рендер. Работает для любого графа.
+        //gd.RenderStupid();
+        //Рендер дерева.
+        gd.RenderTree(1);
+        //MouseGestures mg = new MouseGestures();
+        //gd.GetNodeCircle(2).setFill(Color.AZURE);
+        //mg.makeDraggle(gd.GetNodeCircle(2));
     }
 
     public static class MouseGestures {

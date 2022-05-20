@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -12,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo2.view6">
+<VBox prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo2.view7">
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
@@ -21,7 +22,7 @@
             <MenuItem mnemonicParsing="false" onAction="#onToMainMenu" text="Main Menu" />
                   <Menu mnemonicParsing="false" style="-fx-font: normal 20px 'serif';" text="Tasks">
                     <items>
-                      <MenuItem mnemonicParsing="false" onAction="#onTo0" style="-fx-font: normal 20px 'serif';" text="0" />
+                      <MenuItem mnemonicParsing="false" onAction="#onTo1" style="-fx-font: normal 20px 'serif';" text="0" />
                       <MenuItem mnemonicParsing="false" onAction="#onTo1" style="-fx-font: normal 20px 'serif';" text="1" />
                       <MenuItem mnemonicParsing="false" onAction="#onTo2" style="-fx-font: normal 20px 'serif';" text="2" />
                       <MenuItem mnemonicParsing="false" onAction="#onTo3" style="-fx-font: normal 20px 'serif';" text="3" />
@@ -43,32 +44,26 @@
     </MenuBar>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
-            <Button layoutX="14.0" layoutY="66.0" mnemonicParsing="false" onAction="#onClickUpdateTable" text="Обновить таблицу">
+            <Separator layoutX="317.0" orientation="VERTICAL" prefHeight="375.0" prefWidth="1.0" />
+            <Button layoutX="14.0" layoutY="65.0" mnemonicParsing="false" onAction="#onClickUpdateTable" text="Обновить таблицу">
                <font>
                   <Font size="13.0" />
                </font></Button>
-            <TableView fx:id="tableview1" editable="true" layoutX="14.0" layoutY="116.0" prefHeight="310.0" prefWidth="310.0" />
+            <TableView fx:id="tableview1" editable="true" layoutX="14.0" layoutY="116.0" prefHeight="310.0" prefWidth="280.0" />
             <TextField fx:id="InputPointsCount" layoutX="116.0" layoutY="15.0" />
-            <Button layoutX="179.0" layoutY="66.0" mnemonicParsing="false" onAction="#onClickCalc" text="Получить результаты">
+            <Label layoutX="14.0" layoutY="18.0" text="Число вершин">
+               <font>
+                  <Font size="13.0" />
+               </font></Label>
+            <Button layoutX="213.0" layoutY="65.0" mnemonicParsing="false" onAction="#onClickBuild" text="Построить">
                <font>
                   <Font size="13.0" />
                </font></Button>
-            <Label layoutX="466.0" layoutY="12.0" text="Проверка">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Label>
-            <TextField fx:id="textfield1" layoutX="554.0" layoutY="144.0" prefHeight="25.0" prefWidth="118.0" />
-            <Label layoutX="362.0" layoutY="147.0" prefHeight="17.0" prefWidth="177.0" text="Число компонент связаности">
-               <font>
-                  <Font size="13.0" />
-               </font>
-            </Label>
-            <Separator layoutX="347.0" orientation="VERTICAL" prefHeight="436.0" prefWidth="1.0" />
-            <Label fx:id="label1" layoutX="468.0" layoutY="84.0">
-               <font>
-                  <Font name="System Bold Italic" size="18.0" />
-               </font></Label>
+            <ScrollPane layoutX="319.0" prefHeight="450.0" prefWidth="385.0">
+              <content>
+                <AnchorPane fx:id="pane1" minHeight="0.0" minWidth="0.0" />
+              </content>
+            </ScrollPane>
       </children>
     </AnchorPane>
   </children>

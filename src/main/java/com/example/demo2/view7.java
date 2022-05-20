@@ -8,31 +8,29 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.layout.Pane;
 import javafx.util.Callback;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.paint.Color;
 import javafx.scene.control.TextField;
 
-public class view6 extends goToButtons {
+public class view7 extends goToButtons {
 
     @FXML
     TextField InputPointsCount;
 
     @FXML
-    TextField textfield1;
-
-    @FXML
-    Label label1;
-
-    @FXML
     private TableView tableview1;
 
     String[][] points;
+
+    @FXML
+    private Pane pane1;
+
+    GraphDraw<Integer> gd;
 
     @FXML
     void initialize() {
@@ -66,7 +64,6 @@ public class view6 extends goToButtons {
             );
             tc.setCellFactory(TextFieldTableCell.forTableColumn());
             tc.setSortable(false);
-            tc.setPrefWidth(45);
             tc.setOnEditCommit(
                 new EventHandler<CellEditEvent<String[], String>>() {
                     @Override
@@ -78,10 +75,12 @@ public class view6 extends goToButtons {
             tableview1.getColumns().add(tc);
         }
         tableview1.setItems(data);
+
+        gd=new GraphDraw<Integer>(pane1, PointCount);
     }
 
     @FXML
-    private void onClickCalc() {
+    private void onClickBuild() {
         int PointCount=Integer.parseInt(InputPointsCount.getText());
         for (int i = 0; i < PointCount; i++) {
             for (int j = 0; j < PointCount; j++) {
@@ -89,7 +88,5 @@ public class view6 extends goToButtons {
             }
             System.out.print("\n");
         }
-        label1.setText("empty");
-        label1.setTextFill(Color.GREEN);
     }
 }

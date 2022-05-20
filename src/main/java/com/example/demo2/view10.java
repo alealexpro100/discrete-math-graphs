@@ -15,10 +15,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.paint.Color;
 import javafx.scene.control.TextField;
 
-public class view6 extends goToButtons {
+public class view10 extends goToButtons {
 
     @FXML
     TextField InputPointsCount;
@@ -89,7 +88,6 @@ public class view6 extends goToButtons {
             }
             System.out.print("\n");
         }
-        label1.setText("empty");
-        label1.setTextFill(Color.GREEN);
+        textfield1.setText("NONE");
     }
 }

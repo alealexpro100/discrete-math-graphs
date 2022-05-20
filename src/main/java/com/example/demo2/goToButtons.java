@@ -75,7 +75,7 @@ public class goToButtons {
     private void onTo7() throws IOException {
         var app = new window();
         app.setFileName("view7.fxml");
-        app.setTitleName("Application 7");
+        app.setTitleName("Построение минимального остовного дерева.");
         app.startWindow();
     }
     @FXML
@@ -89,21 +89,21 @@ public class goToButtons {
     private void onTo9() throws IOException {
         var app = new window();
         app.setFileName("view9.fxml");
-        app.setTitleName("Application 9");
+        app.setTitleName("Матрица кратчайших путей");
         app.startWindow();
     }
     @FXML
     private void onTo10() throws IOException {
         var app = new window();
         app.setFileName("view10.fxml");
-        app.setTitleName("Application 10");
+        app.setTitleName("Кодирование Прюфера");
         app.startWindow();
     }
     @FXML
     private void onTo11() throws IOException {
         var app = new window();
         app.setFileName("view11.fxml");
-        app.setTitleName("Application 11");
+        app.setTitleName("Декодирование Прюфера");
         app.startWindow();
     }
     @FXML

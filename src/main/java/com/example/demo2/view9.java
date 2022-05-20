@@ -9,16 +9,14 @@ import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.util.Callback;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.paint.Color;
 import javafx.scene.control.TextField;
 
-public class view6 extends goToButtons {
+public class view9 extends goToButtons {
 
     @FXML
     TextField InputPointsCount;
@@ -27,10 +25,10 @@ public class view6 extends goToButtons {
     TextField textfield1;
 
     @FXML
-    Label label1;
+    private TableView tableview1;
 
     @FXML
-    private TableView tableview1;
+    private TableView tableview2;
 
     String[][] points;
 
@@ -81,7 +79,7 @@ public class view6 extends goToButtons {
     }
 
     @FXML
-    private void onClickCalc() {
+    private void onClickBuild() {
         int PointCount=Integer.parseInt(InputPointsCount.getText());
         for (int i = 0; i < PointCount; i++) {
             for (int j = 0; j < PointCount; j++) {
@@ -89,7 +87,32 @@ public class view6 extends goToButtons {
             }
             System.out.print("\n");
         }
-        label1.setText("empty");
-        label1.setTextFill(Color.GREEN);
+
+
+        points = new String[PointCount][PointCount];
+        for (int i = 0; i < PointCount; i++)
+            for (int j = 0; j < PointCount; j++)
+                points[i][j]="0";
+        ObservableList<String[]> data = FXCollections.observableArrayList();
+        data.addAll(Arrays.asList(points));
+        tableview2.getItems().clear();
+        tableview2.getColumns().clear();
+        for (int i = 0; i < PointCount; i++) {
+            TableColumn tc = new TableColumn(Integer.toString(i+1));
+            final int colNo = i;
+            tc.setCellValueFactory(
+                new Callback<CellDataFeatures<String[], String>, ObservableValue<String>>() {
+                    @Override
+                    public ObservableValue<String> call(CellDataFeatures<String[], String> p) {
+                        return new SimpleStringProperty((p.getValue()[colNo]));
+                    }
+                }
+            );
+            tc.setCellFactory(TextFieldTableCell.forTableColumn());
+            tc.setSortable(false);
+            tc.setPrefWidth(45);
+            tableview2.getColumns().add(tc);
+        }
+        tableview2.setItems(data);
     }
 }
