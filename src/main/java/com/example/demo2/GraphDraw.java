@@ -2,6 +2,7 @@ package com.example.demo2;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import javafx.scene.Node;
@@ -55,6 +56,24 @@ public class GraphDraw<T> {
         Count=0;
         LinkData=new int[Limit][Limit];
         PointData=new ArrayList<T>(Limit);
+    }
+
+    /** 
+     * @param Graph Graph to set
+     * WARNING: NOT TESTED.
+     */
+    public void SetGraph(Object Graph) {
+        List<List<To>> tree = (List<List<To>>)Graph;
+        Count=tree.size();
+        //Set graph data
+        LinkData=new int[Count][Count];
+        PointData=new ArrayList<T>(Count);
+        for (int i=0;i<Count;i++) {
+            for (int j=0;j<tree.get(i).size();j++) {
+                LinkData[i][j]=tree.get(i).get(j).getTo();
+            }
+            PointData.add((T)tree.get(i).get(0).getWeight());
+        }
     }
     
     /** 
@@ -246,6 +265,27 @@ public class GraphDraw<T> {
             }
     }
 
+    private void RenderLink() {
+        for (int i_x=0; i_x<Count; ++i_x) {
+            for (int i_y=0; i_y<Count; ++i_y) {
+                if (LinkData[i_x][i_y]!=0) {
+                    double length_x=CircleNodes[i_x].getCenterX()-CircleNodes[i_y].getCenterX(), length_y=CircleNodes[i_x].getCenterY()-CircleNodes[i_y].getCenterY();
+                    double length=Math.sqrt(Math.pow(length_x,2)+Math.pow(length_y,2));
+                    double x1=CircleNodes[i_x].getCenterX()-(length_x)*CircleNodes[i_x].getRadius()/length,
+                           y1=CircleNodes[i_x].getCenterY()-(length_y)*CircleNodes[i_x].getRadius()/length,
+                           x2=CircleNodes[i_y].getCenterX()+(length_x)*CircleNodes[i_y].getRadius()/length,
+                           y2=CircleNodes[i_y].getCenterY()+(length_y)*CircleNodes[i_y].getRadius()/length;
+                    LinkTextNodes[i_x][i_y]=DrawText((x1+x2)/2, (y1+y2)/2, 30, Color.BLACK, 2, Color.WHITE, Integer.toString(LinkData[i_x][i_y]));
+                    LinkNodes[i_x][i_y]=DrawArrow(x1, y1, x2, y2, 4, Color.BLACK);
+                }
+            }
+        }
+    }
+
+    /** 
+     * Render graph in stupid way using Random.
+     * It it suitable for ANY graph.
+     */
     public void RenderStupid() {
         ClearRender();
         Random rand = new Random();
@@ -264,21 +304,20 @@ public class GraphDraw<T> {
             CircleTextNodes[i]=DrawText(new_x, new_y, 20, Color.BLACK, 1, Color.WHITE, Integer.toString(i));
             CircleNodes[i]=DrawCircle(new_x, new_y, 15, Color.ORANGE, 0.5, Color.BLUE);
         }
-        for (int i_x=0; i_x<Count; ++i_x) {
-            for (int i_y=0; i_y<Count; ++i_y) {
-                if (LinkData[i_x][i_y]!=0) {
-                    double length_x=CircleNodes[i_x].getCenterX()-CircleNodes[i_y].getCenterX(), length_y=CircleNodes[i_x].getCenterY()-CircleNodes[i_y].getCenterY();
-                    double length=Math.sqrt(Math.pow(length_x,2)+Math.pow(length_y,2));
-                    double x1=CircleNodes[i_x].getCenterX()-(length_x)*CircleNodes[i_x].getRadius()/length,
-                           y1=CircleNodes[i_x].getCenterY()-(length_y)*CircleNodes[i_x].getRadius()/length,
-                           x2=CircleNodes[i_y].getCenterX()+(length_x)*CircleNodes[i_y].getRadius()/length,
-                           y2=CircleNodes[i_y].getCenterY()+(length_y)*CircleNodes[i_y].getRadius()/length;
-                    LinkTextNodes[i_x][i_y]=DrawText((x1+x2)/2, (y1+y2)/2, 30, Color.BLACK, 2, Color.WHITE, Integer.toString(LinkData[i_x][i_y]));
-                    LinkNodes[i_x][i_y]=DrawArrow(x1, y1, x2, y2, 4, Color.BLACK);
-                }
-            }
-        }
+        RenderLink();
         draw();
+    }
+
+    /** 
+     * Render graph as a tree
+     * @param Id Point render from
+     * @throws Exception
+     */
+    public void RenderTree(int Id) throws Exception {
+        if (Id>=Count)
+            throw new Exception("GraphDraw: index out bounds! Count is "+Count+". Requested id is "+Id+".");
+        throw new Exception("GraphDraw: RenderTree is not implemented yet!");
+        //double div_x=(WidthMax+margin)/2,  div_y=(HeightMax+margin)/2;
     }
 
     /** 
