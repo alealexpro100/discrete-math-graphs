@@ -24,7 +24,7 @@ public class GraphDraw {
     private int Count;
     private int Limit;
     final private double margin=20;
-    final private double HeightMax=400;
+    final private double HeightMax=350;
     final private double WidthMax=300;
     private double Height=HeightMax-margin;
     private double Width=WidthMax-margin;
@@ -39,6 +39,8 @@ public class GraphDraw {
     private Text[] CircleTextNodes;
 
     /** 
+     * Constructor of new graph.
+     * No data will be kept.
      * @param overlay Pane where graphs will be rendered
      * @param limit Limit of graph nodes
      */
@@ -51,8 +53,9 @@ public class GraphDraw {
     }
 
     /** 
+     * Set graph to this object. No weights, just Integer.
+     * It is got by using "adjacencyMatrixToList".
      * @param Graph Graph to set
-     * WARNING: NOT TESTED.
      */
     public void SetGraph(List<List<Integer>> Graph, int PointsCount) {
         this.Clear();
@@ -62,6 +65,38 @@ public class GraphDraw {
             PointData[i]=i+1;
             for (int j=0;j<Graph.get(i).size();j++)
                 LinkData[i][j]=Graph.get(i).get(j);
+        }
+    }
+
+    /** 
+     * Set weighted graph to this object.
+     * It is got by using "adjacencyMatrixToWeightedList".
+     * @param Graph Graph to set
+     * @param PointsCount Count of points
+     * @param WeightsMark Set weights of points instead of numbers
+     */
+    public void SetGraphTo(List<List<To>> Graph, int PointsCount, boolean WeightsMark) {
+        this.Clear();
+        Count=PointsCount;
+        //Set graph data
+        for (int i=0;i<Count;i++) {
+            if (WeightsMark) {
+                if (Graph.get(i).isEmpty())
+                    PointData[i]=0;
+                else
+                    PointData[i]=Graph.get(i).get(0).getWeight();
+            }
+            else {
+                PointData[i]=i+1;
+            }
+            if (Graph.get(i).isEmpty())
+                PointData[i]=i+1;
+            else
+                PointData[i]=Graph.get(i).get(0).getWeight();
+            for (int j=0;j<Graph.get(i).size();j++)
+                LinkData[i][j]=Graph.get(i).get(j).getTo();
+                for (int j=Graph.get(i).size();j<PointsCount;j++)
+                LinkData[i][j]=0;
         }
     }
     
@@ -181,10 +216,8 @@ public class GraphDraw {
     public void Clear() {
         this.ClearRender();
         Count=0;
-        LinkNodes=new Node[Limit][Limit];
-        CircleNodes=new Circle[Limit];
-        LinkTextNodes=new Text[Limit][Limit];
-        CircleTextNodes=new Text[Limit];
+        PointData=new int[Limit];
+        LinkData=new int[Limit][Limit];
     }
 
     /*
@@ -316,8 +349,10 @@ public class GraphDraw {
      */
     public void ClearRender() {
         GraphOverlay.getChildren().clear();
-        LinkNodes = new Node[Limit][Limit];
-        CircleNodes = new Circle[Limit];
+        LinkNodes=new Node[Limit][Limit];
+        CircleNodes=new Circle[Limit];
+        LinkTextNodes=new Text[Limit][Limit];
+        CircleTextNodes=new Text[Limit];
     }
 
     /** 
