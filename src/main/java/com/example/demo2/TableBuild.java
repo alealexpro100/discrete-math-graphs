@@ -15,7 +15,7 @@ import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.cell.TextFieldTableCell;
 
 public class TableBuild {
-    public static void FillTableView(TableView tableview, String[][] points, int PointCount) {
+    public static void TableViewFill(TableView tableview, String[][] points, int PointCount) {
         ObservableList<String[]> data = FXCollections.observableArrayList();
         data.addAll(Arrays.asList(points));
         tableview.getItems().clear();
@@ -31,9 +31,19 @@ public class TableBuild {
                     }
                 }
             );
-            tc.setCellFactory(TextFieldTableCell.forTableColumn());
             tc.setSortable(false);
             tc.setPrefWidth(45);
+            tableview.getColumns().add(tc);
+        }
+        tableview.setItems(data);
+    }
+    
+    public static void TableViewEditable(TableView tableview, String[][] points) {
+        for (Object x: tableview.getColumns()) {
+            if (x.getClass().equals(TableView.class))
+                continue;
+            TableColumn tc = (TableColumn)x;
+            tc.setCellFactory(TextFieldTableCell.forTableColumn());
             tc.setOnEditCommit(
                 new EventHandler<CellEditEvent<String[], String>>() {
                     @Override
@@ -42,8 +52,26 @@ public class TableBuild {
                     }
                 }
             );
-            tableview.getColumns().add(tc);
         }
-        tableview.setItems(data);
+    }
+    public static void TableViewEditableNotOriented(TableView tableview, String[][] points, int PointCount) {
+        for (Object x: tableview.getColumns()) {
+            if (x.getClass().equals(TableView.class))
+                continue;
+            TableColumn tc = (TableColumn)x;
+            tc.setCellFactory(TextFieldTableCell.forTableColumn());
+            tc.setOnEditCommit(
+                new EventHandler<CellEditEvent<String[], String>>() {
+                    @Override
+                    public void handle(CellEditEvent<String[], String> t) {
+                        points[t.getTablePosition().getRow()][t.getTablePosition().getColumn()]=t.getNewValue();
+                        points[t.getTablePosition().getColumn()][t.getTablePosition().getRow()]=t.getNewValue();
+                        //Don't bit me pls.
+                        TableViewFill(tableview, points, PointCount);
+                        TableViewEditableNotOriented(tableview, points, PointCount);
+                    }
+                }
+            );
+        }
     }
 }

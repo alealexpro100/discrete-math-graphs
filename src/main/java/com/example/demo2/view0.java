@@ -50,7 +50,8 @@ public class view0 extends goToButtons {
         for (int i = 0; i < PointCount; i++)
             for (int j = 0; j < PointCount; j++)
                 points[i][j]="0";
-        TableBuild.FillTableView(tableview1, points, PointCount);
+        TableBuild.TableViewFill(tableview1, points, PointCount);
+        TableBuild.TableViewEditableNotOriented(tableview1, points, PointCount);
     }
 
     @FXML
@@ -73,7 +74,7 @@ public class view0 extends goToButtons {
         for (int i=0; i<PointCount; i++) {
             Powers[0][i]=PowersList.get(i).toString();
         }
-        TableBuild.FillTableView(tableview2, Powers, PointCount);
+        TableBuild.TableViewFill(tableview2, Powers, PointCount);
         textfield1.setText(Integer.toString(graph.getCntConnectedComponents(points_list, PointCount)));
         if (graph.checkEuler(points_list, PointCount)) {
             textfield2.setText("Да");
