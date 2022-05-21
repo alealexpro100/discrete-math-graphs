@@ -54,17 +54,14 @@ public class view8 extends goToButtons {
             }
             System.out.print("\n");
         }
-        points_list=GraphPerformancesSingleton.getInstance().adjacencyMatrixToList(points_list, PointCount);
         ListGraph graph = new ListGraph();
 
-        int InitPoint=Integer.parseInt(textfield1.getText())+1;
-        String[][] Powers = new String[PointCount][PointCount];
-        List<Integer> PowersList = graph.getVertexPower(points_list, PointCount);
+        int InitPoint=Integer.parseInt(textfield1.getText()) - 1;
+        String[][] stringDists = new String[1][PointCount];
+        List<Integer> dists = graph.getDistFrom(points_list, InitPoint, PointCount);
         for (int i=0; i<PointCount; i++) {
-            List<Integer> tmp = graph.getDistFrom(points_list, InitPoint, PointCount);
-            for (int j=0; j<tmp.size(); j++)
-                Powers[j][i]=String.valueOf(PowersList.get(j));
+            stringDists[0][i] = String.format("%d", dists.get(i));
         }
-        TableBuild.TableViewFill(tableview2, Powers, PointCount);
+        TableBuild.TableViewFill(tableview2, stringDists, PointCount);
     }
 }
