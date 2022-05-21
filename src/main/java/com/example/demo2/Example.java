@@ -23,7 +23,7 @@ public class Example extends goToButtons {
         //Создание объекта рендера графа.
         //Первый параметр - панель вывода, второй параметр - лимит (максимальное число вершин)
         //ВАЖНО: Пока что нет проверки на выход за пределы лимита
-        gd=new GraphDraw(pane1, 5);
+        gd=new GraphDraw(pane1, 10);
     }
 
     @FXML
@@ -73,13 +73,22 @@ public class Example extends goToButtons {
         } catch (Exception e) {
             System.out.println("Normal. Ignoring.");
         }
+        gd.Clear();
+        for (int i=0; i<10; i++) {
+            gd.AddPoint(i);
+        }
+        gd.SetLink(0, 1, 1);
+        gd.SetLink(1, 2, 2);
+        gd.SetLink(1, 3, 2);
+        gd.SetLink(2, 4, 2);
+        gd.SetLink(2, 5, 2);
         //Вывод данных объекта в консоль (таблица смежности и значения точек).
         gd.TextOut();
         //Рендер. Пока не работает.
         //Простой рендер. Работает для любого графа.
-        gd.RenderStupid();
+        //gd.RenderStupid();
         //Рендер дерева.
-        //gd.RenderTree(1);
+        gd.RenderTree(0);
         //MouseGestures mg = new MouseGestures();
         //gd.GetNodeCircle(2).setFill(Color.AZURE);
         //mg.makeDraggle(gd.GetNodeCircle(2));

@@ -1,6 +1,7 @@
 package com.example.demo2;
 
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -167,6 +168,7 @@ public class GraphDraw {
         if (y>=Count)
             throw new Exception("GraphDraw: index (y) out bounds! Count is "+Count+". Requested y is "+y+".");
         LinkData[x][y]=size;
+        LinkData[y][x]=size;
     }
     
     /** 
@@ -190,11 +192,7 @@ public class GraphDraw {
      * @throws Exception
      */
     public void SetLink(int x, int y, int size) throws Exception {
-        if (x>=Count)
-            throw new Exception("GraphDraw: index (x) out bounds! Count is "+Count+". Requested x is "+x+".");
-        if (y>=Count)
-            throw new Exception("GraphDraw: index (y) out bounds! Count is "+Count+". Requested y is "+y+".");
-        LinkData[x][y]=size;
+        this.AddLink(x, y, size);
     }
     
     /** 
@@ -208,6 +206,7 @@ public class GraphDraw {
         if (y>=Count)
             throw new Exception("GraphDraw: index (y) out bounds! Count is "+Count+". Requested y is "+y+".");
         LinkData[x][y]=0;
+        LinkData[y][x]=0;
     }
 
     /** 
@@ -269,10 +268,26 @@ public class GraphDraw {
     }
 
     private void draw() {
-        for (Node[] nodes: LinkNodes)
-            for (Node node: nodes)
-                if (node != null) {
-                    DrawNode(node);
+        boolean[][] LinkDrawn = new boolean[Count][Count];
+        boolean[][] LinkTextDrawn = new boolean[Count][Count];
+        for (int i=0; i<Count; i++)
+            for (int j=0; j<Count; j++) {
+                LinkDrawn[i][j]=false;
+                LinkTextDrawn[i][j]=false;
+            }
+        for (int i=0; i<Count; i++)
+            for (int j=0; j<Count; j++)
+                if (LinkNodes[i][j] != null && !LinkDrawn[i][j]) {
+                    DrawNode(LinkNodes[i][j]);
+                    LinkDrawn[i][j]=true;
+                    LinkDrawn[j][i]=true;
+                }
+        for (int i=0; i<Count; i++)
+            for (int j=0; j<Count; j++)
+                if (LinkTextNodes[i][j] != null && !LinkDrawn[i][j]) {
+                    DrawNode(LinkTextNodes[i][j]);
+                    LinkTextDrawn[i][j]=true;
+                    LinkTextDrawn[j][i]=true;
                 }
         for (Text[] nodes: LinkTextNodes)
             for (Text node: nodes)
@@ -292,7 +307,7 @@ public class GraphDraw {
     private void RenderLink() {
         for (int i_x=0; i_x<Count; ++i_x) {
             for (int i_y=0; i_y<Count; ++i_y) {
-                if (LinkData[i_x][i_y]!=0) {
+                if (LinkData[i_x][i_y]!=0 || LinkNodes[i_x][i_y]!=null) {
                     double length_x=CircleNodes[i_x].getCenterX()-CircleNodes[i_y].getCenterX(), length_y=CircleNodes[i_x].getCenterY()-CircleNodes[i_y].getCenterY();
                     double length=Math.sqrt(Math.pow(length_x,2)+Math.pow(length_y,2));
                     double x1=CircleNodes[i_x].getCenterX()-(length_x)*CircleNodes[i_x].getRadius()/length,
@@ -300,7 +315,9 @@ public class GraphDraw {
                            x2=CircleNodes[i_y].getCenterX()+(length_x)*CircleNodes[i_y].getRadius()/length,
                            y2=CircleNodes[i_y].getCenterY()+(length_y)*CircleNodes[i_y].getRadius()/length;
                     LinkTextNodes[i_x][i_y]=DrawText((x1+x2)/2, (y1+y2)/2, 30, Color.BLACK, 2, Color.WHITE, Integer.toString(LinkData[i_x][i_y]));
-                    LinkNodes[i_x][i_y]=DrawArrow(x1, y1, x2, y2, 4, Color.BLACK);
+                    LinkTextNodes[i_x][i_y]=LinkTextNodes[i_y][i_x];
+                    LinkNodes[i_x][i_y]=DrawLine(x1, y1, x2, y2, 4, Color.BLACK);
+                    LinkNodes[i_y][i_x]=LinkNodes[i_x][i_y];
                 }
             }
         }
@@ -313,16 +330,16 @@ public class GraphDraw {
     public void RenderStupid() {
         ClearRender();
         Random rand = new Random();
-        double DiffXMin=(WidthMax+margin)/Count,  DiffYMin=(HeightMax+margin)/Count;
+        double DiffXMin=(Width+margin)/Count,  DiffYMin=(Height+margin)/Count;
         double MinDist=Math.sqrt(Math.pow(DiffXMin, 2)+Math.pow(DiffYMin, 2));
         for (int i=0; i<Count; i++) {
-            double new_x=margin+rand.nextDouble()*(WidthMax-2*margin),
-                new_y=margin+rand.nextDouble()*(HeightMax-2*margin);
+            double new_x=margin+rand.nextDouble()*(Width-2*margin),
+                new_y=margin+rand.nextDouble()*(Height-2*margin);
             for (int j=0; j<i; j++) {
                 while (Math.abs(new_x+CircleNodes[j].getCenterX())<DiffXMin || Math.abs(new_y+CircleNodes[j].getCenterY())<DiffYMin
                  || Math.sqrt(Math.pow(new_x-CircleNodes[j].getCenterX(), 2)+Math.pow(new_y-CircleNodes[j].getCenterY(), 2))<MinDist) {
-                    new_x=margin+rand.nextDouble()*(WidthMax-2*margin);
-                    new_y=margin+rand.nextDouble()*(HeightMax-2*margin);
+                    new_x=margin+rand.nextDouble()*(Width-2*margin);
+                    new_y=margin+rand.nextDouble()*(Height-2*margin);
                 }
             }
             CircleTextNodes[i]=DrawText(new_x, new_y, 20, Color.BLACK, 1, Color.WHITE, Integer.toString(PointData[i]));
@@ -330,6 +347,25 @@ public class GraphDraw {
         }
         RenderLink();
         draw();
+    }
+
+    private void RecursiveTreeBuild(double div_x, double div_y, double x, double y, int id, int last_id) {
+        CircleTextNodes[id]=DrawText(x, y, 20, Color.BLACK, 1, Color.WHITE, Integer.toString(PointData[id]));
+        CircleNodes[id]=DrawCircle(x, y, 15, Color.ORANGE, 0.5, Color.BLUE);
+        System.out.println(div_x+" "+div_y+" "+x+" "+y+" "+id+" "+Count);
+        int ListsCount=0;
+        List<Integer> ListsList= new ArrayList<Integer>();
+        for (int i=0; i<Count; i++)
+            if (i!=last_id && LinkData[id][i]!=0) {
+                ListsCount++;
+                ListsList.add(i);
+            }
+        if (ListsCount==0)
+            return;
+        for (int i=0; i<ListsCount/2; i++)
+            RecursiveTreeBuild(div_x/2, div_y, x-div_x*(ListsCount/2-i), y+div_y, ListsList.get(i), id);
+        for (int i=ListsCount/2; i<ListsCount; i++)
+            RecursiveTreeBuild(div_x/2, div_y, x-div_x*(i-ListsCount/2), y+div_y, ListsList.get(i), id);
     }
 
     /** 
@@ -340,8 +376,26 @@ public class GraphDraw {
     public void RenderTree(int Id) throws Exception {
         if (Id>=Count)
             throw new Exception("GraphDraw: index out bounds! Count is "+Count+". Requested id is "+Id+".");
-        throw new Exception("GraphDraw: RenderTree is not implemented yet!");
-        //double div_x=(WidthMax+margin)/2,  div_y=(HeightMax+margin)/2;
+        //throw new Exception("GraphDraw: RenderTree is not implemented yet!");
+        int ListsCount=0;
+        for (int[] x: LinkData) {
+            int tmp=0;
+            for (int i=0; i<x.length; i++) {
+                if (x[i]!=0)
+                    tmp++;
+                if (ListsCount>1)
+                    break;
+            }
+            if (tmp==1)
+                ListsCount++;
+        }
+        System.out.println(ListsCount);
+        if (ListsCount==0)
+            return;
+        double div_x=Width/ListsCount, div_y=Height/ListsCount/2;
+        RecursiveTreeBuild(div_x, div_y, Width/2+margin, margin, Id, Id);
+        RenderLink();
+        draw();
     }
 
     /** 
