@@ -1,6 +1,8 @@
 package com.example.demo2;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
@@ -82,14 +84,27 @@ public class view6 extends goToButtons {
 
     @FXML
     private void onClickCalc() {
+        List<List<Integer>> points_list = new ArrayList<>();
         int PointCount=Integer.parseInt(InputPointsCount.getText());
         for (int i = 0; i < PointCount; i++) {
+            points_list.add(new ArrayList<>());
             for (int j = 0; j < PointCount; j++) {
+                points_list.get(i).add(Integer.parseInt(points[i][j]));
                 System.out.print(points[i][j]+" ");
             }
             System.out.print("\n");
         }
-        label1.setText("empty");
-        label1.setTextFill(Color.GREEN);
+
+        points_list=GraphPerformancesSingleton.getInstance().adjacencyMatrixToList(points_list, PointCount);
+        ListGraph graph = new ListGraph();
+
+        if (graph.getCntConnectedComponents(points_list, PointCount) == Integer.parseInt(textfield1.getText())) {
+            label1.setText("Правильно");
+            label1.setTextFill(Color.GREEN);
+        }
+        else {
+            label1.setText("Неправильно");
+            label1.setTextFill(Color.RED);
+        }
     }
 }
