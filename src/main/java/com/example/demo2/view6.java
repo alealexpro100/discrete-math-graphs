@@ -1,22 +1,12 @@
 package com.example.demo2;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.util.Callback;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TableColumn.CellDataFeatures;
-import javafx.scene.control.TableColumn.CellEditEvent;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.paint.Color;
 import javafx.scene.control.TextField;
 
@@ -48,15 +38,21 @@ public class view6 extends goToButtons {
     private void onClickUpdateTable() {
         int PointCount=Integer.parseInt(InputPointsCount.getText());
         points = new String[PointCount][PointCount];
+        Random rand = new Random();
         for (int i = 0; i < PointCount; i++)
             for (int j = 0; j < PointCount; j++)
-                points[i][j]="0";
+                points[i][j]=Integer.toString(rand.nextInt(0, 10));
         TableBuild.TableViewFill(tableview1, points, PointCount);
-        TableBuild.TableViewEditable(tableview1, points);
     }
 
     @FXML
     private void onClickCalc() {
+        if (textfield1.getText().isEmpty()) {
+            label1.setText("Пустое поле");
+            label1.setTextFill(Color.RED);
+            return;
+        }
+
         List<List<Integer>> points_list = new ArrayList<>();
         int PointCount=Integer.parseInt(InputPointsCount.getText());
         for (int i = 0; i < PointCount; i++) {
