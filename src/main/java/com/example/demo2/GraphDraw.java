@@ -1,7 +1,6 @@
 package com.example.demo2;
 
 import java.io.PrintStream;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -18,10 +17,10 @@ import javafx.scene.text.Text;
 /**
  * The GraphDraw class provides handy way to render graphs using standard library
  */
-public class GraphDraw<T> {
+public class GraphDraw {
     //Graph data
     private int[][] LinkData;
-    private ArrayList<T> PointData;
+    private int[] PointData;
     private int Count;
     private int Limit;
     final private double margin=20;
@@ -47,32 +46,22 @@ public class GraphDraw<T> {
         Limit=limit;
         //Set draw data
         GraphOverlay=overlay;
-        //Set nodes data (keep lines and circles)
-        LinkNodes=new Node[Limit][Limit];
-        CircleNodes=new Circle[Limit];
-        LinkTextNodes=new Text[Limit][Limit];
-        CircleTextNodes=new Text[Limit];
         //Set default zero data
-        Count=0;
-        LinkData=new int[Limit][Limit];
-        PointData=new ArrayList<T>(Limit);
+        this.Clear();
     }
 
     /** 
      * @param Graph Graph to set
      * WARNING: NOT TESTED.
      */
-    public void SetGraph(Object Graph) {
-        List<List<To>> tree = (List<List<To>>)Graph;
-        Count=tree.size();
+    public void SetGraph(List<List<Integer>> Graph, int PointsCount) {
+        this.Clear();
+        Count=PointsCount;
         //Set graph data
-        LinkData=new int[Count][Count];
-        PointData=new ArrayList<T>(Count);
         for (int i=0;i<Count;i++) {
-            for (int j=0;j<tree.get(i).size();j++) {
-                LinkData[i][j]=tree.get(i).get(j).getTo();
-            }
-            PointData.add((T)tree.get(i).get(0).getWeight());
+            PointData[i]=i+1;
+            for (int j=0;j<Graph.get(i).size();j++)
+                LinkData[i][j]=Graph.get(i).get(j);
         }
     }
     
@@ -88,10 +77,10 @@ public class GraphDraw<T> {
      * @return Index of added node
      * @throws Exception
      */
-    public int AddPoint(T var) throws Exception {
+    public int AddPoint(int var) throws Exception {
         if (Count+1>Limit)
             throw new Exception("GraphDraw: Limit exceeded! Limit is "+Limit+". Requested "+(Count+1)+" new size.");
-        PointData.add(Count, var);
+        PointData[Count]=var;
         return Count++;
     }
 
@@ -100,10 +89,10 @@ public class GraphDraw<T> {
      * @return Index of added node
      * @throws Exception
      */
-    public int SetPoint(T var, int Id) throws Exception {
+    public int SetPoint(int var, int Id) throws Exception {
         if (Id>=Count)
             throw new Exception("GraphDraw: index out bounds! Count is "+Count+". Requested id is "+Id+".");
-        PointData.set(Id, var);
+        PointData[Id]=var;
         return Id;
     }
     
@@ -112,10 +101,10 @@ public class GraphDraw<T> {
      * @return (T) Requested node
      * @throws Exception
      */
-    public T GetPoint(int Id) throws Exception {
+    public int GetPoint(int Id) throws Exception {
         if (Id>=Count)
             throw new Exception("GraphDraw: index out bounds! Count is "+Count+". Requested id is "+Id+".");
-        return PointData.get(Id);
+        return PointData[Id];
     }
     
     /** 
@@ -127,7 +116,7 @@ public class GraphDraw<T> {
             throw new Exception("GraphDraw: index out bounds! Count is "+Count+". Requested id is "+Id+".");
         if (Count==0)
             throw new Exception("GraphDraw: nothing to delete! Count is "+Count+". Requested id is "+Id+".");
-        PointData.remove(Id);
+        PointData[Id]=0;
         --Count;
     }
 
@@ -192,8 +181,10 @@ public class GraphDraw<T> {
     public void Clear() {
         this.ClearRender();
         Count=0;
-        LinkData=new int[Limit][Limit];
-        PointData.clear();
+        LinkNodes=new Node[Limit][Limit];
+        CircleNodes=new Circle[Limit];
+        LinkTextNodes=new Text[Limit][Limit];
+        CircleTextNodes=new Text[Limit];
     }
 
     /*
@@ -301,7 +292,7 @@ public class GraphDraw<T> {
                     new_y=margin+rand.nextDouble()*(HeightMax-2*margin);
                 }
             }
-            CircleTextNodes[i]=DrawText(new_x, new_y, 20, Color.BLACK, 1, Color.WHITE, Integer.toString(i));
+            CircleTextNodes[i]=DrawText(new_x, new_y, 20, Color.BLACK, 1, Color.WHITE, Integer.toString(PointData[i]));
             CircleNodes[i]=DrawCircle(new_x, new_y, 15, Color.ORANGE, 0.5, Color.BLUE);
         }
         RenderLink();
@@ -399,7 +390,7 @@ public class GraphDraw<T> {
         }
         printStream.printf("Вывод точек (их данных):\n");
         for (int i=0; i<PointsCount(); i++)
-            printStream.printf("Точка %2s: %s\n", i, (GetPoint(i) != null) ? GetPoint(i).toString() : "none");
+            printStream.printf("Точка %2s: %s\n", i, (GetPoint(i) != 0) ? GetPoint(i) : "none");
     }
 
 }

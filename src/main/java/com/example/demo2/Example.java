@@ -14,7 +14,7 @@ public class Example extends goToButtons {
     @FXML
     private Pane pane1;
 
-    GraphDraw<Integer> gd;
+    GraphDraw gd;
 
     @FXML
     void initialize() {
@@ -23,7 +23,7 @@ public class Example extends goToButtons {
         //Создание объекта рендера графа.
         //Первый параметр - панель вывода, второй параметр - лимит (максимальное число вершин)
         //ВАЖНО: Пока что нет проверки на выход за пределы лимита
-        gd=new GraphDraw<Integer>(pane1, 5);
+        gd=new GraphDraw(pane1, 5);
     }
 
     @FXML
@@ -77,9 +77,9 @@ public class Example extends goToButtons {
         gd.TextOut();
         //Рендер. Пока не работает.
         //Простой рендер. Работает для любого графа.
-        //gd.RenderStupid();
+        gd.RenderStupid();
         //Рендер дерева.
-        gd.RenderTree(1);
+        //gd.RenderTree(1);
         //MouseGestures mg = new MouseGestures();
         //gd.GetNodeCircle(2).setFill(Color.AZURE);
         //mg.makeDraggle(gd.GetNodeCircle(2));
