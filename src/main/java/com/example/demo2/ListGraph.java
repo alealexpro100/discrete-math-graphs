@@ -69,23 +69,29 @@ public class ListGraph implements Tasks{
 
     @Override
     public boolean checkEuler(Object graph, int n) {
-        if (getCntConnectedComponents(graph, n) == 1)
-            for (var v : getVertexPower(graph, n))
+        if (getCntConnectedComponents(graph, n) == 1) {
+            for (var v : getVertexPower(graph, n)) {
                 if (v % 2 == 1)
                     return false;
-
-        return true;
+            }
+            return true;
+        }
+        else
+            return false;
     }
 
     @Override
     public boolean checkHalfEuler(Object graph, int n) {
-        int cntOdd = 0;
-        if (getCntConnectedComponents(graph, n) == 1)
-            for (var v : getVertexPower(graph, n))
+        if (getCntConnectedComponents(graph, n) == 1) {
+            int cntOdd = 0;
+            for (var v : getVertexPower(graph, n)) {
                 if (v % 2 == 1)
                     cntOdd++;
-
-        return cntOdd <= 2;
+            }
+            return cntOdd <= 2;
+        }
+        else
+            return false;
     }
 
     @Override
@@ -94,8 +100,10 @@ public class ListGraph implements Tasks{
         int[] color = new int[n];
         boolean ans = true;
         for (int i = 0; i < n; ++i) {
-            if (color[i] == 0)
+            if (color[i] == 0) {
+                color[i] = 1;
                 ans &= dfsColor(list, i, color);
+            }
         }
         return ans;
     }
@@ -210,7 +218,6 @@ public class ListGraph implements Tasks{
         List<Integer> path2 = new ArrayList<>();
         boolean[] visited = new boolean[n];
         int cnt = 0;
-
         for (int i = 0; i < n; ++i) {
             if (!visited[i]) {
                 cnt++;

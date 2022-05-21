@@ -12,9 +12,10 @@ public class GraphPerformancesSingleton {
         return instance;
     }
     public List<List<Integer>> adjacencyMatrixToList(Object mt, int n) {
-        List<List<Integer>> list = new ArrayList<>(Collections.nCopies(n, new ArrayList<>()));
+        List<List<Integer>> list = new ArrayList<>();
         var matrix = (List<List<Integer>>)mt;
         for (int i = 0; i < matrix.size(); ++i) {
+            list.add(new ArrayList<>());
             for (int j = 0; j < matrix.get(i).size(); ++j)
                 if (matrix.get(i).get(j) == 1)
                     list.get(i).add(j);
