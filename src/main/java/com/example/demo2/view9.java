@@ -1,19 +1,10 @@
 package com.example.demo2;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.util.Callback;
-import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TableColumn.CellDataFeatures;
-import javafx.scene.control.TableColumn.CellEditEvent;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.control.TextField;
 
 public class view9 extends goToButtons {
@@ -53,39 +44,25 @@ public class view9 extends goToButtons {
 
     @FXML
     private void onClickBuild() {
+        List<List<Integer>> points_list = new ArrayList<>();
         int PointCount=Integer.parseInt(InputPointsCount.getText());
         for (int i = 0; i < PointCount; i++) {
+            points_list.add(new ArrayList<>());
             for (int j = 0; j < PointCount; j++) {
+                points_list.get(i).add(Integer.parseInt(points[i][j]));
                 System.out.print(points[i][j]+" ");
             }
             System.out.print("\n");
         }
 
+        ListGraph graph = new ListGraph();
 
-        points = new String[PointCount][PointCount];
+        List<List<Integer>> points_short_list = graph.getShortestPathMatrix(points_list, PointCount);
+        
+        String[][] points_short = new String[PointCount][PointCount];
         for (int i = 0; i < PointCount; i++)
             for (int j = 0; j < PointCount; j++)
-                points[i][j]="0";
-        ObservableList<String[]> data = FXCollections.observableArrayList();
-        data.addAll(Arrays.asList(points));
-        tableview2.getItems().clear();
-        tableview2.getColumns().clear();
-        for (int i = 0; i < PointCount; i++) {
-            TableColumn tc = new TableColumn(Integer.toString(i+1));
-            final int colNo = i;
-            tc.setCellValueFactory(
-                new Callback<CellDataFeatures<String[], String>, ObservableValue<String>>() {
-                    @Override
-                    public ObservableValue<String> call(CellDataFeatures<String[], String> p) {
-                        return new SimpleStringProperty((p.getValue()[colNo]));
-                    }
-                }
-            );
-            tc.setCellFactory(TextFieldTableCell.forTableColumn());
-            tc.setSortable(false);
-            tc.setPrefWidth(45);
-            tableview2.getColumns().add(tc);
-        }
-        tableview2.setItems(data);
+                points_short[i][j]=String.valueOf(points_short_list.get(i).get(j));
+        TableBuild.TableViewFill(tableview2, points_short, PointCount);
     }
 }

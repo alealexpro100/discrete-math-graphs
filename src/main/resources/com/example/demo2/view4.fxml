@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo2.view6">
+<VBox prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo2.view4">
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
@@ -49,7 +49,8 @@
                </font></Button>
             <TableView fx:id="tableview1" editable="true" layoutX="14.0" layoutY="116.0" prefHeight="310.0" prefWidth="310.0" />
             <TextField fx:id="InputPointsCount" layoutX="116.0" layoutY="15.0" />
-            <Button layoutX="240.0" layoutY="66.0" mnemonicParsing="false" onAction="#onClickCalc" text="Проверить">
+            <Label layoutX="14.0" layoutY="18.0" text="Число вершин"></Label>
+            <Button layoutX="240.0" layoutY="66.0" mnemonicParsing="false" onAction="#onClickCheckBFS" text="Проверить">
                <font>
                   <Font size="13.0" />
                </font></Button>
@@ -58,8 +59,8 @@
                   <Font size="20.0" />
                </font>
             </Label>
-            <TextField fx:id="textfield1" layoutX="554.0" layoutY="144.0" prefHeight="25.0" prefWidth="118.0" />
-            <Label layoutX="362.0" layoutY="147.0" prefHeight="17.0" prefWidth="177.0" text="Число компонент связаности">
+            <TextField fx:id="textfield1" layoutX="391.0" layoutY="173.0" prefHeight="25.0" prefWidth="242.0" />
+            <Label layoutX="423.0" layoutY="144.0" prefHeight="17.0" prefWidth="177.0" text="Обход в ширину (вершины)">
                <font>
                   <Font size="13.0" />
                </font>

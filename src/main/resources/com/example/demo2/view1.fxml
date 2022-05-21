@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo2.view1">
+<VBox prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo2.view1">
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
@@ -59,11 +59,13 @@
                <font>
                   <Font size="13.0" />
                </font></Button>
-            <ScrollPane layoutX="319.0" prefHeight="450.0" prefWidth="385.0">
+            <ScrollPane layoutX="319.0" layoutY="50.0" prefHeight="400.0" prefWidth="385.0">
               <content>
                 <AnchorPane fx:id="pane1" minHeight="0.0" minWidth="0.0" />
               </content>
             </ScrollPane>
+            <Label layoutX="323.0" layoutY="19.0" text="Обход в глубину (вершины)" />
+            <TextField fx:id="textfield1" editable="false" layoutX="487.0" layoutY="15.0" prefHeight="25.0" prefWidth="203.0" />
       </children>
     </AnchorPane>
   </children>

@@ -1,20 +1,11 @@
 package com.example.demo2;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.util.Callback;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TableColumn.CellDataFeatures;
-import javafx.scene.control.TableColumn.CellEditEvent;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.control.TextField;
 
 public class view11 extends goToButtons {
@@ -36,13 +27,20 @@ public class view11 extends goToButtons {
 
     @FXML
     private void onClickCalc() {
-        String code=textfield1.getText();
+        String code_text=textfield1.getText().replace(" ", "");
+        List<Integer> code=new ArrayList<>();
+        for (char x: code_text.toCharArray()) {
+            code.add(x-'0');
+        }
 
+        ListGraph graph = new ListGraph();
+
+        List<List<Integer>> decoded = (List<List<Integer>>)graph.decodeTree(code, code.size());
         int PointCount=4;
         String[][] points = new String[PointCount][PointCount];
         for (int i = 0; i < PointCount; i++)
             for (int j = 0; j < PointCount; j++)
-                points[i][j]="0";
+                points[i][j]=String.valueOf(decoded.get(i).get(j));
         //Here we build table
         TableBuild.TableViewFill(tableview1, points, PointCount);
     }

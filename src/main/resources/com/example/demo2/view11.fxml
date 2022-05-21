@@ -44,7 +44,7 @@
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
             <TableView fx:id="tableview1" editable="true" layoutX="376.0" layoutY="117.0" prefHeight="310.0" prefWidth="310.0" />
-            <Button layoutX="222.0" layoutY="66.0" mnemonicParsing="false" onAction="#onClickCalc" text="Декодировать">
+            <Button layoutX="126.0" layoutY="175.0" mnemonicParsing="false" onAction="#onClickCalc" text="Декодировать">
                <font>
                   <Font size="13.0" />
                </font></Button>

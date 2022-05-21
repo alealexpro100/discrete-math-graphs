@@ -67,6 +67,7 @@ public class view0 extends goToButtons {
             System.out.print("\n");
         }
         points_list=GraphPerformancesSingleton.getInstance().adjacencyMatrixToList(points_list, PointCount);
+        
         ListGraph graph = new ListGraph();
 
         String[][] Powers = new String[1][PointCount];

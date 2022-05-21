@@ -1,20 +1,11 @@
 package com.example.demo2;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
-import javafx.util.Callback;
-import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TableColumn.CellDataFeatures;
-import javafx.scene.control.TableColumn.CellEditEvent;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.control.TextField;
 
 public class view3 extends goToButtons {
@@ -23,9 +14,13 @@ public class view3 extends goToButtons {
     TextField InputPointsCount;
 
     @FXML
+    TextField textfield1;
+
+    @FXML
     private TableView tableview1;
 
     String[][] points;
+    GraphDraw GraphDraw;
 
     @FXML
     private Pane pane1;
@@ -33,6 +28,7 @@ public class view3 extends goToButtons {
     @FXML
     void initialize() {
         //Автозапуск после открытия окна.
+        GraphDraw = new GraphDraw(pane1, 20);
         tableview1.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY); 
         InputPointsCount.setText("3");
         onClickUpdateTable();
@@ -50,13 +46,34 @@ public class view3 extends goToButtons {
     }
 
     @FXML
-    private void onClickDFS() {
+    private void onClickBFS() {
+        List<List<Integer>> points_list = new ArrayList<>();
         int PointCount=Integer.parseInt(InputPointsCount.getText());
         for (int i = 0; i < PointCount; i++) {
+            points_list.add(new ArrayList<>());
             for (int j = 0; j < PointCount; j++) {
+                points_list.get(i).add(Integer.parseInt(points[i][j]));
                 System.out.print(points[i][j]+" ");
             }
             System.out.print("\n");
         }
+        points_list=GraphPerformancesSingleton.getInstance().adjacencyMatrixToList(points_list, PointCount);
+
+        ListGraph graph = new ListGraph();
+
+        List<Integer> BFSPath = graph.getBFSPath(points_list, PointCount);
+        String ans="";
+        for (int x: BFSPath)
+            ans+=x;
+        textfield1.setText(ans);
+
+        GraphDraw.SetGraph(points_list, PointCount);
+        try {
+            GraphDraw.TextOut();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        GraphDraw.RenderStupid();
     }
 }

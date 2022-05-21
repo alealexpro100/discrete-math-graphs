@@ -1,20 +1,11 @@
 package com.example.demo2;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.util.Callback;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TableColumn.CellDataFeatures;
-import javafx.scene.control.TableColumn.CellEditEvent;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.control.TextField;
 
 public class view10 extends goToButtons {
@@ -54,13 +45,24 @@ public class view10 extends goToButtons {
 
     @FXML
     private void onClickCalc() {
+        List<List<Integer>> points_list = new ArrayList<>();
         int PointCount=Integer.parseInt(InputPointsCount.getText());
         for (int i = 0; i < PointCount; i++) {
+            points_list.add(new ArrayList<>());
             for (int j = 0; j < PointCount; j++) {
+                points_list.get(i).add(Integer.parseInt(points[i][j]));
                 System.out.print(points[i][j]+" ");
             }
             System.out.print("\n");
         }
-        textfield1.setText("NONE");
+
+        ListGraph graph = new ListGraph();
+
+        String ans="";
+
+        for (int x: graph.encodeTree(points_list, PointCount))
+            ans+=x;
+
+        textfield1.setText(ans);
     }
 }

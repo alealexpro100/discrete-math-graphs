@@ -5,14 +5,13 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo2.view6">
+<VBox prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo2.view8">
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
@@ -43,32 +42,37 @@
     </MenuBar>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
-            <Button layoutX="14.0" layoutY="66.0" mnemonicParsing="false" onAction="#onClickUpdateTable" text="Обновить таблицу">
+            <Button layoutX="14.0" layoutY="80.0" mnemonicParsing="false" onAction="#onClickUpdateTable" text="Обновить таблицу">
                <font>
                   <Font size="13.0" />
                </font></Button>
-            <TableView fx:id="tableview1" editable="true" layoutX="14.0" layoutY="116.0" prefHeight="310.0" prefWidth="310.0" />
-            <TextField fx:id="InputPointsCount" layoutX="116.0" layoutY="15.0" />
-            <Button layoutX="240.0" layoutY="66.0" mnemonicParsing="false" onAction="#onClickCalc" text="Проверить">
+            <TableView fx:id="tableview1" editable="true" layoutX="14.0" layoutY="116.0" prefHeight="290.0" prefWidth="310.0" />
+            <TextField fx:id="InputPointsCount" layoutX="169.0" layoutY="15.0" />
+            <Label layoutX="14.0" layoutY="18.0" text="Число вершин">
+               <font>
+                  <Font size="13.0" />
+               </font></Label>
+            <Button layoutX="188.0" layoutY="80.0" mnemonicParsing="false" onAction="#onClickCalculate" text="Получить результат">
                <font>
                   <Font size="13.0" />
                </font></Button>
-            <Label layoutX="466.0" layoutY="12.0" text="Проверка">
+            <TableView fx:id="tableview2" layoutX="362.0" layoutY="116.0" prefHeight="290.0" prefWidth="310.0" />
+            <Label layoutX="362.0" layoutY="84.0" prefHeight="19.0" prefWidth="149.0" text="Расстояния до вершин">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+            <Label layoutX="466.0" layoutY="12.0" text="Результат">
                <font>
                   <Font size="20.0" />
                </font>
             </Label>
-            <TextField fx:id="textfield1" layoutX="554.0" layoutY="144.0" prefHeight="25.0" prefWidth="118.0" />
-            <Label layoutX="362.0" layoutY="147.0" prefHeight="17.0" prefWidth="177.0" text="Число компонент связаности">
+            <TextField fx:id="textfield1" layoutX="169.0" layoutY="48.0" />
+            <Label layoutX="14.0" layoutY="51.0" text="Начальная вершина">
                <font>
                   <Font size="13.0" />
                </font>
             </Label>
-            <Separator layoutX="347.0" orientation="VERTICAL" prefHeight="436.0" prefWidth="1.0" />
-            <Label fx:id="label1" layoutX="468.0" layoutY="84.0">
-               <font>
-                  <Font name="System Bold Italic" size="18.0" />
-               </font></Label>
       </children>
     </AnchorPane>
   </children>

@@ -4,11 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.fxml.FXML;
-import javafx.scene.layout.Pane;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 
-public class view1 extends goToButtons {
+public class view8 extends goToButtons {
 
     @FXML
     TextField InputPointsCount;
@@ -19,16 +18,14 @@ public class view1 extends goToButtons {
     @FXML
     private TableView tableview1;
 
-    String[][] points;
-    GraphDraw GraphDraw;
-
     @FXML
-    private Pane pane1;
+    private TableView tableview2;
+
+    String[][] points;
 
     @FXML
     void initialize() {
         //Автозапуск после открытия окна.
-        GraphDraw = new GraphDraw(pane1, 20);
         tableview1.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY); 
         InputPointsCount.setText("3");
         onClickUpdateTable();
@@ -46,7 +43,7 @@ public class view1 extends goToButtons {
     }
 
     @FXML
-    private void onClickDFS() {
+    private void onClickCalculate() {
         List<List<Integer>> points_list = new ArrayList<>();
         int PointCount=Integer.parseInt(InputPointsCount.getText());
         for (int i = 0; i < PointCount; i++) {
@@ -58,22 +55,16 @@ public class view1 extends goToButtons {
             System.out.print("\n");
         }
         points_list=GraphPerformancesSingleton.getInstance().adjacencyMatrixToList(points_list, PointCount);
-
         ListGraph graph = new ListGraph();
 
-        List<Integer> DFSPath = graph.getDFSPath(points_list, PointCount);
-        String ans="";
-        for (int x: DFSPath)
-            ans+=x;
-        textfield1.setText(ans);
-
-        GraphDraw.SetGraph(points_list, PointCount);
-        try {
-            GraphDraw.TextOut();
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        int InitPoint=Integer.parseInt(textfield1.getText())+1;
+        String[][] Powers = new String[PointCount][PointCount];
+        List<Integer> PowersList = graph.getVertexPower(points_list, PointCount);
+        for (int i=0; i<PointCount; i++) {
+            List<Integer> tmp = graph.getDistFrom(points_list, InitPoint, PointCount);
+            for (int j=0; j<tmp.size(); j++)
+                Powers[j][i]=String.valueOf(PowersList.get(j));
         }
-        GraphDraw.RenderStupid();
+        TableBuild.TableViewFill(tableview2, Powers, PointCount);
     }
 }

@@ -69,7 +69,12 @@ public class view7 extends goToButtons {
             }
             System.out.print("\n");
         }
-        GraphDraw.SetGraph(points_list, PointCount);
+
+        ListGraph graph = new ListGraph();
+
+        List<List<To>> SpanningTree = (List<List<To>>)graph.getSpanningTree(points_list, PointCount);
+
+        GraphDraw.SetGraphTo(SpanningTree, PointCount, false);
         try {
             GraphDraw.TextOut();
         } catch (Exception e) {

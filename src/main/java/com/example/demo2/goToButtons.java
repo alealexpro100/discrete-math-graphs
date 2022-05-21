@@ -39,7 +39,7 @@ public class goToButtons {
     private void onTo2() throws IOException {
         var app = new window();
         app.setFileName("view2.fxml");
-        app.setTitleName("Application 2");
+        app.setTitleName("Проверка обхода в глубину (DFS)");
         app.startWindow();
     }
     @FXML
@@ -54,7 +54,7 @@ public class goToButtons {
 
         var app = new window();
         app.setFileName("view4.fxml");
-        app.setTitleName("Application 4");
+        app.setTitleName("Проверка обхода в ширину (BFS)");
         app.startWindow();
     }
     @FXML
@@ -82,7 +82,7 @@ public class goToButtons {
     private void onTo8() throws IOException {
         var app = new window();
         app.setFileName("view8.fxml");
-        app.setTitleName("Application 8");
+        app.setTitleName("Кратчайшие пути между вершинами");
         app.startWindow();
     }
     @FXML
