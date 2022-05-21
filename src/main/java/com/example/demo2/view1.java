@@ -1,6 +1,7 @@
 package com.example.demo2;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javafx.fxml.FXML;
@@ -52,12 +53,12 @@ public class view1 extends goToButtons {
         for (int i = 0; i < PointCount; i++) {
             points_list.add(new ArrayList<>());
             for (int j = 0; j < PointCount; j++) {
-                points_list.get(i).add(Integer.parseInt(points[i][j]));
                 System.out.print(points[i][j]+" ");
+                if (points[i][j]!="0" && points[i][j]!="")
+                    points_list.get(i).add(j);
             }
             System.out.print("\n");
         }
-        points_list=GraphPerformancesSingleton.getInstance().adjacencyMatrixToList(points_list, PointCount);
 
         ListGraph graph = new ListGraph();
 
@@ -67,7 +68,7 @@ public class view1 extends goToButtons {
             ans+=x;
         textfield1.setText(ans);
 
-        GraphDraw.SetGraph(points_list, PointCount);
+        GraphDraw.SetGraph(points, PointCount);
         try {
             GraphDraw.TextOut();
         } catch (Exception e) {

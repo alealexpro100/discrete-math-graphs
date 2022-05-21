@@ -27,8 +27,8 @@ public class GraphDraw {
     final private double margin=20;
     final private double HeightMax=350;
     final private double WidthMax=300;
-    private double Height=HeightMax-margin;
-    private double Width=WidthMax-margin;
+    private double Height=HeightMax;
+    private double Width=WidthMax;
 
     //Data where to draw
     private Pane GraphOverlay;
@@ -51,6 +51,22 @@ public class GraphDraw {
         GraphOverlay=overlay;
         //Set default zero data
         this.Clear();
+    }
+
+    /** 
+     * Set graph to this object.
+     * Takes string 2D array with links.
+     * @param Graph Graph to set
+     */
+    public void SetGraph(String[][] Graph, int PointsCount) {
+        this.Clear();
+        Count=PointsCount;
+        //Set graph data
+        for (int i=0;i<Count;i++) {
+            PointData[i]=i+1;
+            for (int j=0;j<Count;j++)
+                LinkData[i][j]=Integer.valueOf(Graph[i][j]);
+        }
     }
 
     /** 
@@ -277,15 +293,10 @@ public class GraphDraw {
                 }
         for (int i=0; i<Count; i++)
             for (int j=0; j<Count; j++)
-                if (LinkTextNodes[i][j] != null && !LinkDrawn[i][j]) {
+                if (LinkTextNodes[i][j] != null && !LinkTextDrawn[i][j]) {
                     DrawNode(LinkTextNodes[i][j]);
                     LinkTextDrawn[i][j]=true;
                     LinkTextDrawn[j][i]=true;
-                }
-        for (Text[] nodes: LinkTextNodes)
-            for (Text node: nodes)
-                if (node != null) {
-                    DrawNode(node);
                 }
         for (Circle node: CircleNodes)
             if (node != null) {
@@ -300,7 +311,7 @@ public class GraphDraw {
     private void RenderLink() {
         for (int i_x=0; i_x<Count; ++i_x) {
             for (int i_y=0; i_y<Count; ++i_y) {
-                if (LinkData[i_x][i_y]!=0 || LinkNodes[i_x][i_y]!=null) {
+                if (LinkData[i_x][i_y]!=0 || LinkNodes[i_x][i_y]!=null && i_x!=i_y) {
                     double length_x=CircleNodes[i_x].getCenterX()-CircleNodes[i_y].getCenterX(), length_y=CircleNodes[i_x].getCenterY()-CircleNodes[i_y].getCenterY();
                     double length=Math.sqrt(Math.pow(length_x,2)+Math.pow(length_y,2));
                     double x1=CircleNodes[i_x].getCenterX()-(length_x)*CircleNodes[i_x].getRadius()/length,
@@ -308,7 +319,7 @@ public class GraphDraw {
                            x2=CircleNodes[i_y].getCenterX()+(length_x)*CircleNodes[i_y].getRadius()/length,
                            y2=CircleNodes[i_y].getCenterY()+(length_y)*CircleNodes[i_y].getRadius()/length;
                     LinkTextNodes[i_x][i_y]=DrawText((x1+x2)/2, (y1+y2)/2, 30, Color.BLACK, 2, Color.WHITE, Integer.toString(LinkData[i_x][i_y]));
-                    LinkTextNodes[i_x][i_y]=LinkTextNodes[i_y][i_x];
+                    LinkTextNodes[i_y][i_x]=LinkTextNodes[i_x][i_y];
                     LinkNodes[i_x][i_y]=DrawLine(x1, y1, x2, y2, 4, Color.BLACK);
                     LinkNodes[i_y][i_x]=LinkNodes[i_x][i_y];
                 }
@@ -335,6 +346,7 @@ public class GraphDraw {
                     new_y=margin+rand.nextDouble()*(Height-2*margin);
                 }
             }
+            System.out.println(i+" "+new_x+" "+new_y);
             CircleTextNodes[i]=DrawText(new_x, new_y, 20, Color.BLACK, 1, Color.WHITE, Integer.toString(PointData[i]));
             CircleNodes[i]=DrawCircle(new_x, new_y, 15, Color.ORANGE, 0.5, Color.BLUE);
         }
@@ -394,6 +406,8 @@ public class GraphDraw {
      * Clear rendered result
      */
     public void ClearRender() {
+        Height=HeightMax;
+        Width=WidthMax;
         GraphOverlay.getChildren().clear();
         LinkNodes=new Node[Limit][Limit];
         CircleNodes=new Circle[Limit];
