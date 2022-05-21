@@ -5,17 +5,19 @@
 * Written in Java using technology JavaFX;
 * The program `SceneBuilder` was used for making GUI;
 * Tested on two platforms: Windows 10 (openjdk 18) and Arch Linux (openjdk 17).
-* Works only with oriented graphs.
+* Works only with unoriented graphs.
+* Educational project.
+* No additional dependencies.
 
 ## Tasks
 
-* 0 - Done
+* 0 - Done (TO BE FIXED)
 * 1
 * 2
 * 3
 * 4
 * 5 - Done
-* 6 - Done
+* 6 - Done (TO BE FIXED)
 * 7
 * 8
 * 9
