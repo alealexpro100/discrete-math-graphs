@@ -1,5 +1,6 @@
 package com.example.demo2;
 
+
 import java.util.*;
 
 public class ListGraph implements Tasks{
@@ -9,13 +10,15 @@ public class ListGraph implements Tasks{
         INF = 1_000_000_000;
         singleton = GraphPerformancesSingleton.getInstance();
     }
-    void dfs(List<List<Integer>> list, int v,  boolean[] visited, List<Integer> path) {
+    void dfs(List<List<Integer>> list, int v, boolean[] visited, List<Integer> path) {
+
         visited[v] = true;
         path.add(v);
         for (var to : list.get(v)) {
             if (!visited[to])
                 dfs(list, to, visited, path);
         }
+
     }
 
     void bfs(List<List<Integer>> list, int v, boolean[] visited, List<Integer> path) {
@@ -117,14 +120,17 @@ public class ListGraph implements Tasks{
         int col1 = 0, col2 = 0;
         for (int i = 0; i < n; ++i) {
             m += list.get(i).size();
+            if (color[i] == 0) {
+                color[i] = 1;
+                ans &= dfsColor(list, i, color);
+            }
             if (color[i] == 1)
                 col1++;
             if (color[i] == 2)
                 col2++;
-            if (color[i] == 0)
-                ans &= dfsColor(list, i, color);
         }
         m /= 2;
+        System.out.println(col1 + " " + col2 + " " + m);
         if (m == col1 * col2 && getCntConnectedComponents(graph, n) == 1)
             return ans;
         return false;
@@ -136,7 +142,8 @@ public class ListGraph implements Tasks{
         List<Integer> path = new ArrayList<>();
         boolean[] visited = new boolean[n];
         for (int i = 0; i < n; ++i) {
-            dfs(list, i, visited, path);
+            if (!visited[i])
+                dfs(list, i, visited, path);
         }
         return path;
     }
@@ -158,9 +165,9 @@ public class ListGraph implements Tasks{
         stack.add(path.get(0));
         visited[path.get(0)] = true;
         for (int i = 1; i < path.size(); ++i) {
-            while (path.size() > 0 && !contain[stack.getLast()][path.get(i)])
+            while (stack.size() > 0 && !contain[stack.getLast()][path.get(i)])
                 stack.removeLast();
-            if (path.size() == 0)
+            if (stack.size() == 0)
                 cntComp++;
             if (visited[path.get(i)])
                 return false;
@@ -200,9 +207,9 @@ public class ListGraph implements Tasks{
         queue.add(path.get(0));
         visited[path.get(0)] = true;
         for (int i = 1; i < path.size(); ++i) {
-            while (path.size() > 0 && !contain[queue.getFirst()][path.get(i)])
+            while (queue.size() > 0 && !contain[queue.getFirst()][path.get(i)])
                 queue.removeFirst();
-            if (path.size() == 0)
+            if (queue.size() == 0)
                 cntComp++;
             if (visited[path.get(i)])
                 return false;
@@ -336,7 +343,12 @@ public class ListGraph implements Tasks{
     @Override
     public List<List<Integer>> getShortestPathMatrix(Object graph, int n) {
         List<List<To>> list = singleton.adjacencyMatrixToWeightedList(graph, n);
-        List<List<Integer>> matrix = new ArrayList<>(Collections.nCopies(n, new ArrayList<>(Collections.nCopies(n, INF))));
+        List<List<Integer>> matrix = new ArrayList<>();
+        for (int i = 0; i < n; ++i) {
+            List<Integer> add = new ArrayList<>();
+            for (int j = 0; j < n; ++j) add.add(INF);
+            matrix.add(add);
+        }
         for (int i = 0; i < n; ++i) {
             for (var l : list.get(i)) {
                 matrix.get(i).set(l.getTo(), Math.min(matrix.get(i).get(l.getTo()),l.getWeight() ) );
@@ -358,15 +370,22 @@ public class ListGraph implements Tasks{
     @Override
     public List<Integer> encodeTree(Object graph, int n) {
         List<List<Integer>> list = singleton.getList(graph);
+        ArrayList<ArrayList<Integer>> cc = new ArrayList<>();
+        for (int i = 0; i < n; ++i) {
+            var l = new ArrayList<>(list.get(i));
+            cc.add(l);
+        }
         List<Integer> ans = new ArrayList<>();
         for (int k = 0; k < n - 2; ++k) {
             for (int v = 0; v < n; ++v) {
-                if (list.get(v).size() == 1) {
-                    int prev = list.get(v).get(0);
+                if (cc.get(v).size() == 1) {
+                    int prev = cc.get(v).get(0);
                     ans.add(prev);
-                    list.get(v).remove(Integer.valueOf(prev));
-                    list.get(prev).remove(Integer.valueOf(v));
-
+                    //System.out.println(cc.get(4).size() + " " + v);
+                    // cc.get(v).clear();
+                    cc.get(v).remove(Integer.valueOf(prev));
+                    cc.get(prev).remove(Integer.valueOf(v));
+                    break;
 
                 }
             }
@@ -374,9 +393,15 @@ public class ListGraph implements Tasks{
         return ans;
     }
 
+    //Нумерация вершин с нуля
     @Override
     public Object decodeTree(List<Integer> prufer, int n) {
-        List<List<Integer>> list = new ArrayList<>(Collections.nCopies(n, new ArrayList<>()));
+        for (int i = 0; i < n; ++i)
+            prufer.set(i, prufer.get(i) + 1);
+        ArrayList<ArrayList<Integer>> list = new ArrayList<ArrayList<Integer>>();
+        for (int i = 0; i < n + 2; ++i)
+            list.add(new ArrayList<>());
+        // List<List<Integer>> list = new ArrayList<>(Collections.nCopies(n + 3, new ArrayList<>()));
         int vertices = n + 2;
         int[] vertex_set = new int[vertices];
 
@@ -400,10 +425,10 @@ public class ListGraph implements Tasks{
                     // Remove from Prufer set and print
                     // pair.
                     vertex_set[j] = -1;
-                    list.get(j + 1).add(i);
-                    list.get(i).add(j + 1);
-                    /*System.out.print("(" + (j + 1) + ", "
-                            + prufer.get(i) + ") ");*/
+                    list.get(j).add(prufer.get(i) - 1);
+                    list.get(prufer.get(i) - 1).add(j);
+                    System.out.print("(" + (j + 1) + ", "
+                            + prufer.get(i) + ") ");
 
                     vertex_set[prufer.get(i) - 1]--;
 
@@ -424,12 +449,14 @@ public class ListGraph implements Tasks{
                 add2 = i + 1;
         }
         if (add1 != -1 && add2 != -1) {
-            list.get(add1).add(add2);
-            list.get(add2).add(add1);
+            list.get(add1 - 1).add(add2 - 1);
+            list.get(add2 - 1).add(add1 - 1);
         }
+        System.out.println("("+add1 + ", " + add2 + ")");
         return list;
     }
 
+    //Раскраска начиная с 0
     @Override
     public List<Integer> paintGraph(Object graph, int n) {
         List<List<Integer>> adj = singleton.getList(graph);
