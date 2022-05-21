@@ -51,35 +51,8 @@ public class view6 extends goToButtons {
         for (int i = 0; i < PointCount; i++)
             for (int j = 0; j < PointCount; j++)
                 points[i][j]="0";
-        ObservableList<String[]> data = FXCollections.observableArrayList();
-        data.addAll(Arrays.asList(points));
-        tableview1.getItems().clear();
-        tableview1.getColumns().clear();
-        for (int i = 0; i < PointCount; i++) {
-            TableColumn tc = new TableColumn(Integer.toString(i+1));
-            final int colNo = i;
-            tc.setCellValueFactory(
-                new Callback<CellDataFeatures<String[], String>, ObservableValue<String>>() {
-                    @Override
-                    public ObservableValue<String> call(CellDataFeatures<String[], String> p) {
-                        return new SimpleStringProperty((p.getValue()[colNo]));
-                    }
-                }
-            );
-            tc.setCellFactory(TextFieldTableCell.forTableColumn());
-            tc.setSortable(false);
-            tc.setPrefWidth(45);
-            tc.setOnEditCommit(
-                new EventHandler<CellEditEvent<String[], String>>() {
-                    @Override
-                    public void handle(CellEditEvent<String[], String> t) {
-                        points[t.getTablePosition().getRow()][t.getTablePosition().getColumn()]=t.getNewValue();
-                    }
-                }
-            );
-            tableview1.getColumns().add(tc);
-        }
-        tableview1.setItems(data);
+        TableBuild.TableViewFill(tableview1, points, PointCount);
+        TableBuild.TableViewEditable(tableview1, points);
     }
 
     @FXML

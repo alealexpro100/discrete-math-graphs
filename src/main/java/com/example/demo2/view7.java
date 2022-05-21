@@ -1,6 +1,8 @@
 package com.example.demo2;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
@@ -26,15 +28,17 @@ public class view7 extends goToButtons {
     private TableView tableview1;
 
     String[][] points;
+    GraphDraw GraphDraw;
 
     @FXML
     private Pane pane1;
 
-    GraphDraw<Integer> gd;
+    GraphDraw gd;
 
     @FXML
     void initialize() {
         //Автозапуск после открытия окна.
+        GraphDraw = new GraphDraw(pane1, 20);
         tableview1.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY); 
         InputPointsCount.setText("3");
         onClickUpdateTable();
@@ -47,46 +51,31 @@ public class view7 extends goToButtons {
         for (int i = 0; i < PointCount; i++)
             for (int j = 0; j < PointCount; j++)
                 points[i][j]="0";
-        ObservableList<String[]> data = FXCollections.observableArrayList();
-        data.addAll(Arrays.asList(points));
-        tableview1.getItems().clear();
-        tableview1.getColumns().clear();
-        for (int i = 0; i < PointCount; i++) {
-            TableColumn tc = new TableColumn(Integer.toString(i+1));
-            final int colNo = i;
-            tc.setCellValueFactory(
-                new Callback<CellDataFeatures<String[], String>, ObservableValue<String>>() {
-                    @Override
-                    public ObservableValue<String> call(CellDataFeatures<String[], String> p) {
-                        return new SimpleStringProperty((p.getValue()[colNo]));
-                    }
-                }
-            );
-            tc.setCellFactory(TextFieldTableCell.forTableColumn());
-            tc.setSortable(false);
-            tc.setOnEditCommit(
-                new EventHandler<CellEditEvent<String[], String>>() {
-                    @Override
-                    public void handle(CellEditEvent<String[], String> t) {
-                        points[t.getTablePosition().getRow()][t.getTablePosition().getColumn()]=t.getNewValue();
-                    }
-                }
-            );
-            tableview1.getColumns().add(tc);
-        }
-        tableview1.setItems(data);
+        TableBuild.TableViewFill(tableview1, points, PointCount);
+        TableBuild.TableViewEditable(tableview1, points);
 
-        gd=new GraphDraw<Integer>(pane1, PointCount);
+        gd=new GraphDraw(pane1, PointCount);
     }
 
     @FXML
     private void onClickBuild() {
+        List<List<Integer>> points_list = new ArrayList<>();
         int PointCount=Integer.parseInt(InputPointsCount.getText());
         for (int i = 0; i < PointCount; i++) {
+            points_list.add(new ArrayList<>());
             for (int j = 0; j < PointCount; j++) {
+                points_list.get(i).add(Integer.parseInt(points[i][j]));
                 System.out.print(points[i][j]+" ");
             }
             System.out.print("\n");
         }
+        GraphDraw.SetGraph(points_list, PointCount);
+        try {
+            GraphDraw.TextOut();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        GraphDraw.RenderStupid();
     }
 }
