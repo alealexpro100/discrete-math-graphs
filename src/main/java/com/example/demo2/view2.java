@@ -38,10 +38,10 @@ public class view2 extends goToButtons {
     private void onClickUpdateTable() {
         int PointCount=Integer.parseInt(InputPointsCount.getText());
         points = new String[PointCount][PointCount];
-        Random rand = new Random();
+        int[][] randomMatrix = GraphGenerator.getRandomMatrix(PointCount, 0, 10);
         for (int i = 0; i < PointCount; i++)
             for (int j = 0; j < PointCount; j++)
-                points[i][j]=Integer.toString(rand.nextInt(0, 10));
+                points[i][j]=Integer.toString(randomMatrix[i][j]);
         TableBuild.TableViewFill(tableview1, points, PointCount);
     }
 
