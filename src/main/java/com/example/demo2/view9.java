@@ -49,11 +49,18 @@ public class view9 extends goToButtons {
         ListGraph graph = new ListGraph();
 
         List<List<Integer>> points_short_list = graph.getShortestPathMatrix(points_list, PointCount);
+
+        System.out.println(points_short_list);
         
         String[][] points_short = new String[PointCount][PointCount];
         for (int i = 0; i < PointCount; i++)
-            for (int j = 0; j < PointCount; j++)
-                points_short[i][j]=String.valueOf(points_short_list.get(i).get(j));
+            for (int j = 0; j < PointCount; j++) {
+                int val=points_short_list.get(i).get(j);
+                if (val>=1_000_000_000)
+                    points_short[i][j]="∞";
+                else
+                    points_short[i][j]=String.valueOf(val);
+            }
         TableBuild.TableViewFill(tableview2, points_short, PointCount);
     }
 }
