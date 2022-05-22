@@ -1,6 +1,8 @@
 package com.example.demo2;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
@@ -73,5 +75,19 @@ public class TableBuild {
                 }
             );
         }
+    }
+
+    public static List<List<Integer>> GetMatrixList(String[][] points, int PointCount) {
+        List<List<Integer>> points_list = new ArrayList<>();
+        for (int i = 0; i < PointCount; i++) {
+            points_list.add(new ArrayList<>());
+            for (int j = 0; j < PointCount; j++) {
+                System.out.print(points[i][j]+" ");
+                if (points[i][j]!="0" && points[i][j]!="")
+                    points_list.get(i).add(j);
+            }
+            System.out.print("\n");
+        }
+        return points_list;
     }
 }

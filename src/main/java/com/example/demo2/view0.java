@@ -1,6 +1,5 @@
 package com.example.demo2;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javafx.fxml.FXML;
@@ -56,16 +55,8 @@ public class view0 extends goToButtons {
 
     @FXML
     private void onClickCalculate() {
-        List<List<Integer>> points_list = new ArrayList<>();
         int PointCount=Integer.parseInt(InputPointsCount.getText());
-        for (int i = 0; i < PointCount; i++) {
-            points_list.add(new ArrayList<>());
-            for (int j = 0; j < PointCount; j++) {
-                points_list.get(i).add(Integer.parseInt(points[i][j]));
-                System.out.print(points[i][j]+" ");
-            }
-            System.out.print("\n");
-        }
+        List<List<Integer>> points_list = TableBuild.GetMatrixList(points, PointCount);
         points_list=GraphPerformancesSingleton.getInstance().adjacencyMatrixToList(points_list, PointCount);
         
         ListGraph graph = new ListGraph();
