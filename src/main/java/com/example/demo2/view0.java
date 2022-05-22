@@ -57,7 +57,6 @@ public class view0 extends goToButtons {
     private void onClickCalculate() {
         int PointCount=Integer.parseInt(InputPointsCount.getText());
         List<List<Integer>> points_list = TableBuild.GetMatrixList(points, PointCount);
-        points_list=GraphPerformancesSingleton.getInstance().adjacencyMatrixToList(points_list, PointCount);
         
         ListGraph graph = new ListGraph();
 

@@ -54,7 +54,6 @@ public class view6 extends goToButtons {
         int PointCount=Integer.parseInt(InputPointsCount.getText());
         List<List<Integer>> points_list = TableBuild.GetMatrixList(points, PointCount);
 
-        points_list=GraphPerformancesSingleton.getInstance().adjacencyMatrixToList(points_list, PointCount);
         ListGraph graph = new ListGraph();
 
         if (graph.getCntConnectedComponents(points_list, PointCount) == Integer.parseInt(textfield1.getText())) {
