@@ -40,7 +40,7 @@ public class view7 extends goToButtons {
             for (int j = 0; j < PointCount; j++)
                 points[i][j]="0";
         TableBuild.TableViewFill(tableview1, points, PointCount);
-        TableBuild.TableViewEditable(tableview1, points);
+        TableBuild.TableViewEditableNotOriented(tableview1, points, PointCount);
 
         gd=new GraphDraw(pane1, PointCount);
     }

@@ -60,7 +60,7 @@ public class view2 extends goToButtons {
 
         String ans="";
         for (int x: DFSPath)
-            ans+=x;
+            ans+=(x+1);
 
         if (textfield1.getText().equals(ans)) {
             label1.setText("Правильно");

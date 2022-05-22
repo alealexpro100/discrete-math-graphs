@@ -68,7 +68,7 @@ public class view12 extends goToButtons {
             Color color;
             switch (paints.get(i)) {
                 case 0:
-                    color=Color.ORANGE;
+                    color=GraphDraw.DefaultCircleColor;
                     break;
                 case 1:
                     color=Color.RED;

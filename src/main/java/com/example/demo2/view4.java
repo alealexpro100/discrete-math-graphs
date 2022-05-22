@@ -69,7 +69,7 @@ public class view4 extends goToButtons {
         List<Integer> BFSPath = graph.getBFSPath(points_list, PointCount);
         String ans="";
         for (int x: BFSPath)
-            ans+=x;
+            ans+=(x+1);
 
         if (textfield1.getText().equals(ans)) {
             label1.setText("Правильно");

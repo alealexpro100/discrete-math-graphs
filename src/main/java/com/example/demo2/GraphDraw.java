@@ -27,6 +27,7 @@ public class GraphDraw {
     final private double margin=20;
     final private double HeightMax=350;
     final private double WidthMax=300;
+    final public Color DefaultCircleColor=Color.ORANGE;
     private double Height=HeightMax;
     private double Width=WidthMax;
 
@@ -348,7 +349,7 @@ public class GraphDraw {
             }
             System.out.println(i+" "+new_x+" "+new_y);
             CircleTextNodes[i]=DrawText(new_x, new_y, 20, Color.BLACK, 1, Color.WHITE, Integer.toString(PointData[i]));
-            CircleNodes[i]=DrawCircle(new_x, new_y, 15, Color.ORANGE, 0.5, Color.BLUE);
+            CircleNodes[i]=DrawCircle(new_x, new_y, 15, DefaultCircleColor, 0.5, Color.BLUE);
         }
         RenderLink();
         draw();
@@ -356,7 +357,7 @@ public class GraphDraw {
 
     private void RecursiveTreeBuild(double div_x, double div_y, double x, double y, int id, int last_id) {
         CircleTextNodes[id]=DrawText(x, y, 20, Color.BLACK, 1, Color.WHITE, Integer.toString(PointData[id]));
-        CircleNodes[id]=DrawCircle(x, y, 15, Color.ORANGE, 0.5, Color.BLUE);
+        CircleNodes[id]=DrawCircle(x, y, 15, DefaultCircleColor, 0.5, Color.BLUE);
         System.out.println(div_x+" "+div_y+" "+x+" "+y+" "+id+" "+Count);
         int ListsCount=0;
         List<Integer> ListsList= new ArrayList<Integer>();
