@@ -11,19 +11,19 @@
 
 ## Tasks
 
-* 0 - Done (TO BE FIXED)
-* 1
-* 2
-* 3
-* 4
+* 0 - Done
+* 1 - Done
+* 2 - Done
+* 3 - Done
+* 4 - Done
 * 5 - Done
-* 6 - Done (TO BE FIXED)
-* 7
-* 8
-* 9
-* 10
-* 11
-* 12
+* 6 - Done
+* 7 - Done
+* 8 - Done
+* 9 - Done
+* 10 - Done
+* 11 - Done
+* 12 - Done
 
 ## Authors
 

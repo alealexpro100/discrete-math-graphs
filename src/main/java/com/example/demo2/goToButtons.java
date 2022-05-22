@@ -75,7 +75,7 @@ public class goToButtons {
     private void onTo7() throws IOException {
         var app = new window();
         app.setFileName("view7.fxml");
-        app.setTitleName("7. Построение минимального остовного дерева.");
+        app.setTitleName("7. Построение минимального остовного дерева");
         app.startWindow();
     }
     @FXML
