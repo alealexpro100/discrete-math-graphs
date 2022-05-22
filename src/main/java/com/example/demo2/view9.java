@@ -44,7 +44,7 @@ public class view9 extends goToButtons {
     @FXML
     private void onClickBuild() {
         int PointCount=Integer.parseInt(InputPointsCount.getText());
-        List<List<Integer>> points_list = TableBuild.GetMatrixList(points, PointCount);
+        List<List<Integer>> points_list = TableBuild.GetAdjacencyMatrix(points, PointCount);
 
         ListGraph graph = new ListGraph();
 
