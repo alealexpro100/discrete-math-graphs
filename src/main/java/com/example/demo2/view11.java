@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
 
 public class view11 extends goToButtons {
 
@@ -19,10 +20,19 @@ public class view11 extends goToButtons {
     @FXML
     private TableView tableview1;
 
+    String[][] points;
+    GraphDraw GraphDraw;
+
+    @FXML
+    private Pane pane1;
+
+    GraphDraw gd;
+
     @FXML
     void initialize() {
         //Автозапуск после открытия окна.
-        tableview1.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY); 
+        GraphDraw = new GraphDraw(pane1, 20);
+        tableview1.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
     }
 
     @FXML
@@ -30,7 +40,7 @@ public class view11 extends goToButtons {
         String code_text=textfield1.getText().replace(" ", "");
         List<Integer> code=new ArrayList<>();
         for (char x: code_text.toCharArray()) {
-            code.add(x-'0');
+            code.add(x-'0'-1);
         }
 
         ListGraph graph = new ListGraph();
@@ -40,5 +50,15 @@ public class view11 extends goToButtons {
         int PointCount=decoded.size();
         //Here we build table
         TableBuild.TableViewFill(tableview1, TableBuild.SetGraph(decoded, PointCount), PointCount);
+
+        gd=new GraphDraw(pane1, PointCount);
+        GraphDraw.SetGraph(decoded, PointCount);
+        try {
+            GraphDraw.TextOut();
+            GraphDraw.RenderStupid();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 }

@@ -61,7 +61,7 @@ public class view3 extends goToButtons {
             ans+=(x+1);
         textfield1.setText(ans);
 
-        GraphDraw.SetGraph(points_list, PointCount);
+        GraphDraw.SetGraph(points, PointCount);
         try {
             GraphDraw.TextOut();
         } catch (Exception e) {

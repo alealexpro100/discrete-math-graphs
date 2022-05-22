@@ -54,9 +54,8 @@ public class view12 extends goToButtons {
         ListGraph graph = new ListGraph();
 
         List<Integer> paints = graph.paintGraph(points_list, PointCount);
-        System.out.println("Ex: "+graph.paintGraph(points_list, PointCount)+" "+points_list);
 
-        GraphDraw.SetGraph(points_list, PointCount);
+        GraphDraw.SetGraph(points, PointCount);
         try {
             GraphDraw.TextOut();
         } catch (Exception e) {

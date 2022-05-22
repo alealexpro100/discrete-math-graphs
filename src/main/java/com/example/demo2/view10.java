@@ -52,7 +52,7 @@ public class view10 extends goToButtons {
         String ans="";
 
         for (int x: graph.encodeTree(points_list, PointCount))
-            ans+=x;
+            ans+=(x+1);
 
         textfield1.setText(ans);
     }

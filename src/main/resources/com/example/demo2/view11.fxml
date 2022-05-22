@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -43,22 +44,23 @@
     </MenuBar>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
-            <TableView fx:id="tableview1" editable="true" layoutX="376.0" layoutY="117.0" prefHeight="310.0" prefWidth="310.0" />
-            <Button layoutX="126.0" layoutY="175.0" mnemonicParsing="false" onAction="#onClickCalc" text="Декодировать">
+            <TableView fx:id="tableview1" editable="true" layoutX="23.0" layoutY="117.0" prefHeight="310.0" prefWidth="310.0" />
+            <Button layoutX="229.0" layoutY="80.0" mnemonicParsing="false" onAction="#onClickCalc" text="Декодировать">
                <font>
                   <Font size="13.0" />
                </font></Button>
-            <Label layoutX="466.0" layoutY="12.0" text="Результат">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Label>
-            <TextField fx:id="textfield1" layoutX="76.0" layoutY="140.0" prefHeight="25.0" prefWidth="205.0" />
-            <Label layoutX="134.0" layoutY="107.0" prefHeight="19.0" prefWidth="88.0" text="Код Прюфера">
+            <Label layoutX="23.0" layoutY="93.0" text="Таблица смежности" />
+            <TextField fx:id="textfield1" layoutX="113.0" layoutY="33.0" prefHeight="25.0" prefWidth="220.0" />
+            <Label layoutX="23.0" layoutY="36.0" prefHeight="19.0" prefWidth="88.0" text="Код Прюфера">
                <font>
                   <Font size="13.0" />
                </font>
             </Label>
+            <ScrollPane layoutX="349.0" prefHeight="436.0" prefWidth="355.0">
+              <content>
+                <AnchorPane fx:id="pane1" minHeight="0.0" minWidth="0.0" />
+              </content>
+            </ScrollPane>
             <Separator layoutX="347.0" orientation="VERTICAL" prefHeight="436.0" prefWidth="1.0" />
       </children>
     </AnchorPane>
