@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import javafx.event.EventHandler;
 import javafx.scene.Node;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -278,6 +280,8 @@ public class GraphDraw {
     }
 
     private void draw() {
+        MouseGestures MG_CircleNodes[] = new MouseGestures[Count];
+        MouseGestures MG_CircleTextNodes[] = new MouseGestures[Count];
         boolean[][] LinkDrawn = new boolean[Count][Count];
         boolean[][] LinkTextDrawn = new boolean[Count][Count];
         for (int i=0; i<Count; i++)
@@ -291,21 +295,39 @@ public class GraphDraw {
                     DrawNode(LinkNodes[i][j]);
                     LinkDrawn[i][j]=true;
                     LinkDrawn[j][i]=true;
-                }
-        for (int i=0; i<Count; i++)
-            for (int j=0; j<Count; j++)
-                if (LinkTextNodes[i][j] != null && !LinkTextDrawn[i][j]) {
                     DrawNode(LinkTextNodes[i][j]);
                     LinkTextDrawn[i][j]=true;
                     LinkTextDrawn[j][i]=true;
                 }
-        for (Circle node: CircleNodes)
-            if (node != null) {
-                DrawNode(node);
+        for (int i=0; i<Count; i++)
+            if (CircleNodes[i] != null) {
+                DrawNode(CircleNodes[i]);
+                DrawNode(CircleTextNodes[i]);
+                MG_CircleNodes[i] = new MouseGestures(CircleNodes[i], i, this);
+                MG_CircleTextNodes[i]= new MouseGestures(CircleTextNodes[i], i, this);
             }
-        for (Text node: CircleTextNodes)
-            if (node != null) {
-                DrawNode(node);
+    }
+
+    public void RearrangeCircle(int Id, double new_x, double new_y) throws Exception {
+        CircleNodes[Id].setCenterX(new_x);
+        CircleNodes[Id].setCenterY(new_y);
+        CircleTextNodes[Id].setX(new_x-20/3);
+        CircleTextNodes[Id].setY(new_y+20/3);
+        for (int i=0; i<Count; i++)
+            if (LinkNodes[Id][i] != null) {
+                Line tmp_line=(Line)this.GetNodeLink(Id, i);
+                double length_x=CircleNodes[Id].getCenterX()-CircleNodes[i].getCenterX(), length_y=CircleNodes[Id].getCenterY()-CircleNodes[i].getCenterY();
+                double length=Math.sqrt(Math.pow(length_x,2)+Math.pow(length_y,2));
+                double x1=CircleNodes[Id].getCenterX()-(length_x)*CircleNodes[Id].getRadius()/length,
+                    y1=CircleNodes[Id].getCenterY()-(length_y)*CircleNodes[Id].getRadius()/length,
+                    x2=CircleNodes[i].getCenterX()+(length_x)*CircleNodes[i].getRadius()/length,
+                    y2=CircleNodes[i].getCenterY()+(length_y)*CircleNodes[i].getRadius()/length;
+                LinkTextNodes[Id][i].setX((x1+x2)/2-30/3);
+                LinkTextNodes[Id][i].setY((y1+y2)/2+30/3);
+                tmp_line.setStartX(x1);
+                tmp_line.setStartY(y1);
+                tmp_line.setEndX(x2);
+                tmp_line.setEndY(y2);
             }
     }
 
@@ -489,4 +511,62 @@ public class GraphDraw {
             printStream.printf("Точка %2s: %s\n", i, (GetPoint(i) != 0) ? GetPoint(i) : "none");
     }
 
+    public class MouseGestures {
+
+        double orgSceneX, orgSceneY;
+        double OriginalX, OriginalY;
+        int Id;
+        GraphDraw graph;
+    
+        MouseGestures(Node node, int Id, GraphDraw graph) {
+            node.setOnMousePressed(OnMousePressedEventHandler);
+            node.setOnMouseDragged(OnMouseDraggedEventHandler);
+            node.setOnMouseReleased(OnMouseReleasedEventHandler);
+            this.Id=Id;
+            this.graph=graph;
+            try {
+                OriginalX=graph.GetNodeCircle(Id).getCenterX();
+                OriginalY=graph.GetNodeCircle(Id).getCenterY();
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+    
+        EventHandler<MouseEvent> OnMousePressedEventHandler = new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent t) {
+                orgSceneX = t.getSceneX();
+                orgSceneY = t.getSceneY();
+            }
+        };
+    
+        EventHandler<MouseEvent> OnMouseDraggedEventHandler = new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent t) {
+                double offsetX = OriginalX+ t.getSceneX() - orgSceneX;
+                double offsetY = OriginalY + t.getSceneY() - orgSceneY;
+                try {
+                    graph.RearrangeCircle(Id, offsetX, offsetY);
+                } catch (Exception e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        EventHandler<MouseEvent> OnMouseReleasedEventHandler = new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent t) {
+                OriginalX = OriginalX+ t.getSceneX() - orgSceneX;
+                OriginalY = OriginalY + t.getSceneY() - orgSceneY;
+                try {
+                    graph.RearrangeCircle(Id, OriginalX, OriginalY);
+                } catch (Exception e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        };
+    }
 }
