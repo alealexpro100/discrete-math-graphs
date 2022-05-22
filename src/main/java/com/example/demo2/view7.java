@@ -48,13 +48,14 @@ public class view7 extends goToButtons {
     @FXML
     private void onClickBuild() {
         int PointCount=Integer.parseInt(InputPointsCount.getText());
-        List<List<Integer>> points_list = TableBuild.GetMatrixList(points, PointCount);
+        List<List<Integer>> points_list = TableBuild.GetAdjacencyMatrix(points, PointCount);
+        System.out.println(points_list);
 
         ListGraph graph = new ListGraph();
 
         List<List<To>> SpanningTree = (List<List<To>>)graph.getSpanningTree(points_list, PointCount);
 
-        GraphDraw.SetGraphTo(SpanningTree, PointCount, false);
+        GraphDraw.SetGraphTo(SpanningTree, PointCount, true);
         try {
             GraphDraw.TextOut();
         } catch (Exception e) {

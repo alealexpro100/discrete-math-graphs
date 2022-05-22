@@ -52,25 +52,17 @@ public class view4 extends goToButtons {
             return;
         }
 
-        List<List<Integer>> points_list = new ArrayList<>();
         int PointCount=Integer.parseInt(InputPointsCount.getText());
-        for (int i = 0; i < PointCount; i++) {
-            points_list.add(new ArrayList<>());
-            for (int j = 0; j < PointCount; j++) {
-                System.out.print(points[i][j]+" ");
-                if (points[i][j]!="0" && points[i][j]!="")
-                    points_list.get(i).add(j);
-            }
-            System.out.print("\n");
-        }
+        List<List<Integer>> points_list = TableBuild.GetMatrixList(points, PointCount);
 
         ListGraph graph = new ListGraph();
 
         List<Integer> BFSPath = graph.getBFSPath(points_list, PointCount);
+        System.out.println(BFSPath);
+
         String ans="";
         for (int x: BFSPath)
             ans+=(x+1);
-
         if (textfield1.getText().equals(ans)) {
             label1.setText("Правильно");
             label1.setTextFill(Color.GREEN);

@@ -57,11 +57,11 @@ public class view2 extends goToButtons {
         ListGraph graph = new ListGraph();
 
         List<Integer> DFSPath = graph.getDFSPath(points_list, PointCount);
+        System.out.println(DFSPath);
 
         String ans="";
         for (int x: DFSPath)
             ans+=(x+1);
-
         if (textfield1.getText().equals(ans)) {
             label1.setText("Правильно");
             label1.setTextFill(Color.GREEN);
