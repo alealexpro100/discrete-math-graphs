@@ -16,27 +16,27 @@
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
-        <Menu mnemonicParsing="false" text="Menu">
+        <Menu mnemonicParsing="false" text="Меню">
           <items>
-            <MenuItem mnemonicParsing="false" onAction="#onToMainMenu" text="Main Menu" />
-                  <Menu mnemonicParsing="false" style="-fx-font: normal 20px 'serif';" text="Tasks">
+            <MenuItem mnemonicParsing="false" onAction="#onToMainMenu" text="Главное меню" />
+                  <Menu mnemonicParsing="false" style="-fx-font: normal 20px 'serif';" text="Задачи">
                     <items>
-                      <MenuItem mnemonicParsing="false" onAction="#onTo0" style="-fx-font: normal 20px 'serif';" text="0" />
-                      <MenuItem mnemonicParsing="false" onAction="#onTo1" style="-fx-font: normal 20px 'serif';" text="1" />
-                      <MenuItem mnemonicParsing="false" onAction="#onTo2" style="-fx-font: normal 20px 'serif';" text="2" />
-                      <MenuItem mnemonicParsing="false" onAction="#onTo3" style="-fx-font: normal 20px 'serif';" text="3" />
-                      <MenuItem mnemonicParsing="false" onAction="#onTo4" style="-fx-font: normal 20px 'serif';" text="4" />
-                      <MenuItem mnemonicParsing="false" onAction="#onTo5" style="-fx-font: normal 20px 'serif';" text="5" />
-                      <MenuItem mnemonicParsing="false" onAction="#onTo6" style="-fx-font: normal 20px 'serif';" text="6" />
-                      <MenuItem mnemonicParsing="false" onAction="#onTo7" style="-fx-font: normal 20px 'serif';" text="7" />
-                      <MenuItem mnemonicParsing="false" onAction="#onTo8" style="-fx-font: normal 20px 'serif';" text="8" />
-                      <MenuItem mnemonicParsing="false" onAction="#onTo9" style="-fx-font: normal 20px 'serif';" text="9" />
-                      <MenuItem mnemonicParsing="false" onAction="#onTo10" style="-fx-font: normal 20px 'serif';" text="10" />
-                      <MenuItem mnemonicParsing="false" onAction="#onTo11" style="-fx-font: normal 20px 'serif';" text="11" />
-                      <MenuItem mnemonicParsing="false" onAction="#onTo12" style="-fx-font: normal 20px 'serif';" text="12" />
+                      <MenuItem mnemonicParsing="false" onAction="#onTo0" style="-fx-font: normal 20px 'serif';" text="0. Типы графа" />
+                      <MenuItem mnemonicParsing="false" onAction="#onTo1" style="-fx-font: normal 20px 'serif';" text="1. Обход в глубину (DFS)" />
+                      <MenuItem mnemonicParsing="false" onAction="#onTo2" style="-fx-font: normal 20px 'serif';" text="2. Проверка обхода в глубину (DFS)" />
+                      <MenuItem mnemonicParsing="false" onAction="#onTo3" style="-fx-font: normal 20px 'serif';" text="3. Обход в ширину (BFS)" />
+                      <MenuItem mnemonicParsing="false" onAction="#onTo4" style="-fx-font: normal 20px 'serif';" text="4. Проверка обхода в ширину (BFS)" />
+                      <MenuItem mnemonicParsing="false" onAction="#onTo5" style="-fx-font: normal 20px 'serif';" text="5. Компонент связанность" />
+                      <MenuItem mnemonicParsing="false" onAction="#onTo6" style="-fx-font: normal 20px 'serif';" text="6. Проверка компонент связанности" />
+                      <MenuItem mnemonicParsing="false" onAction="#onTo7" style="-fx-font: normal 20px 'serif';" text="7. Построение минимального остовного дерева." />
+                      <MenuItem mnemonicParsing="false" onAction="#onTo8" style="-fx-font: normal 20px 'serif';" text="8. Кратчайшие пути между вершинами" />
+                      <MenuItem mnemonicParsing="false" onAction="#onTo9" style="-fx-font: normal 20px 'serif';" text="9. Матрица кратчайших путей" />
+                      <MenuItem mnemonicParsing="false" onAction="#onTo10" style="-fx-font: normal 20px 'serif';" text="10. Кодирование Прюфера" />
+                      <MenuItem mnemonicParsing="false" onAction="#onTo11" style="-fx-font: normal 20px 'serif';" text="11. Декодирование Прюфера" />
+                      <MenuItem mnemonicParsing="false" onAction="#onTo12" style="-fx-font: normal 20px 'serif';" text="12. Раскраска дерева" />
                     </items>
                   </Menu>
-            <MenuItem mnemonicParsing="false" onAction="#onClickExit" text="Quit" />
+            <MenuItem mnemonicParsing="false" onAction="#onClickExit" text="Выход" />
           </items>
         </Menu>
       </menus>

@@ -17,10 +17,10 @@
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
-        <Menu mnemonicParsing="false" text="Menu">
+        <Menu mnemonicParsing="false" text="Меню">
           <items>
-            <MenuItem mnemonicParsing="false" onAction="#onToMainMenu" text="Main Menu" />
-                  <Menu mnemonicParsing="false" style="-fx-font: normal 20px 'serif';" text="Tasks">
+            <MenuItem mnemonicParsing="false" onAction="#onToMainMenu" text="Главное меню" />
+                  <Menu mnemonicParsing="false" style="-fx-font: normal 20px 'serif';" text="Задачи">
                     <items>
                       <MenuItem mnemonicParsing="false" onAction="#onTo1" style="-fx-font: normal 20px 'serif';" text="0" />
                       <MenuItem mnemonicParsing="false" onAction="#onTo1" style="-fx-font: normal 20px 'serif';" text="1" />
@@ -37,7 +37,7 @@
                       <MenuItem mnemonicParsing="false" onAction="#onTo12" style="-fx-font: normal 20px 'serif';" text="12" />
                     </items>
                   </Menu>
-            <MenuItem mnemonicParsing="false" onAction="#onClickExit" text="Quit" />
+            <MenuItem mnemonicParsing="false" onAction="#onClickExit" text="Выход" />
           </items>
         </Menu>
       </menus>

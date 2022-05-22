@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public class window extends Application {
     private String fileName = "MainMenu.fxml";
-    private String titleName = "Main Menu";
+    private String titleName = "Главное меню";
     static Stage stage = null;
 
     public String getFileName() {
