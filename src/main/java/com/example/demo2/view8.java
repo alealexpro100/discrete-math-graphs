@@ -44,7 +44,7 @@ public class view8 extends goToButtons {
     @FXML
     private void onClickCalculate() {
         int PointCount=Integer.parseInt(InputPointsCount.getText());
-        List<List<Integer>> points_list = TableBuild.GetMatrixList(points, PointCount);
+        List<List<Integer>> points_list = TableBuild.GetAdjacencyMatrix(points, PointCount);
 
         ListGraph graph = new ListGraph();
 
@@ -52,7 +52,10 @@ public class view8 extends goToButtons {
         String[][] stringDists = new String[1][PointCount];
         List<Integer> dists = graph.getDistFrom(points_list, InitPoint, PointCount);
         for (int i=0; i<PointCount; i++) {
-            stringDists[0][i] = String.format("%d", dists.get(i));
+            if (dists.get(i)==Integer.MAX_VALUE)
+                stringDists[0][i]="∞";
+            else
+                stringDists[0][i]=Integer.toString(dists.get(i));
         }
         TableBuild.TableViewFill(tableview2, stringDists, PointCount);
     }
