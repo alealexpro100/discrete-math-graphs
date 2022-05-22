@@ -36,12 +36,9 @@ public class view11 extends goToButtons {
         ListGraph graph = new ListGraph();
 
         List<List<Integer>> decoded = (List<List<Integer>>)graph.decodeTree(code, code.size());
-        int PointCount=4;
-        String[][] points = new String[PointCount][PointCount];
-        for (int i = 0; i < PointCount; i++)
-            for (int j = 0; j < PointCount; j++)
-                points[i][j]=String.valueOf(decoded.get(i).get(j));
+        System.out.println(decoded+" "+decoded.size());
+        int PointCount=decoded.size();
         //Here we build table
-        TableBuild.TableViewFill(tableview1, points, PointCount);
+        TableBuild.TableViewFill(tableview1, TableBuild.SetGraph(decoded, PointCount), PointCount);
     }
 }

@@ -90,4 +90,19 @@ public class TableBuild {
         }
         return points_list;
     }
+
+    public static String[][] SetGraph(List<List<Integer>> Graph, int PointsCount) {
+        String[][] LinkData = new String[PointsCount][PointsCount];
+        for (int i = 0; i < PointsCount; i++) {
+            for (int j = 0; j < PointsCount; j++) {
+                LinkData[i][j] = "0";
+            }
+        }
+        //Set graph data
+        for (int i=0;i<PointsCount;i++) {
+            for (int j=0;j<Graph.get(i).size();j++)
+                LinkData[i][Graph.get(i).get(j)]="1";
+        }
+        return LinkData;
+    }
 }
