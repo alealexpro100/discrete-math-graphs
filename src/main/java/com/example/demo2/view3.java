@@ -4,6 +4,7 @@ import java.util.List;
 
 import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 
@@ -20,6 +21,9 @@ public class view3 extends goToButtons {
 
     String[][] points;
     GraphDraw GraphDraw;
+    
+    List<Integer> BFSPath;
+    int BFSIndex;
 
     @FXML
     private Pane pane1;
@@ -51,10 +55,10 @@ public class view3 extends goToButtons {
 
         ListGraph graph = new ListGraph();
 
-        List<Integer> BFSPath = graph.getBFSPath(points_list, PointCount);
+        BFSPath = graph.getBFSPath(points_list, PointCount);
         String ans="";
         for (int x: BFSPath)
-            ans+=x;
+            ans+=(x+1);
         textfield1.setText(ans);
 
         GraphDraw.SetGraph(points_list, PointCount);
@@ -65,5 +69,24 @@ public class view3 extends goToButtons {
             e.printStackTrace();
         }
         GraphDraw.RenderStupid();
+    }
+
+    @FXML
+    private void onClickNext() {
+        int index;
+        try {
+            if (BFSIndex!=0) {
+                index=BFSPath.get(BFSIndex-1);
+                GraphDraw.GetNodeCircle(index).setFill(GraphDraw.DefaultCircleColor);
+            }
+            if (BFSIndex==BFSPath.size())
+                BFSIndex=0;
+            index=BFSPath.get(BFSIndex);
+            GraphDraw.GetNodeCircle(index).setFill(Color.RED);
+            BFSIndex++;
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 }

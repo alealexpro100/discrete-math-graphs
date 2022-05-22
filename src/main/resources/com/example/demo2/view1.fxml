@@ -66,6 +66,7 @@
             </ScrollPane>
             <Label layoutX="323.0" layoutY="19.0" text="Обход в глубину (вершины)" />
             <TextField fx:id="textfield1" editable="false" layoutX="487.0" layoutY="15.0" prefHeight="25.0" prefWidth="203.0" />
+            <Button layoutX="644.0" layoutY="60.0" mnemonicParsing="false" onAction="#onClickNext" text="Далее" />
       </children>
     </AnchorPane>
   </children>
