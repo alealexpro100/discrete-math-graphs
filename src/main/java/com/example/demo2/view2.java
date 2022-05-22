@@ -36,7 +36,7 @@ public class view2 extends goToButtons {
     private void onClickUpdateTable() {
         int PointCount=Integer.parseInt(InputPointsCount.getText());
         points = new String[PointCount][PointCount];
-        int[][] randomMatrix = GraphGenerator.getRandomMatrix(PointCount, 0, 10);
+        int[][] randomMatrix = GraphGenerator.getRandomConnectedMatrix(PointCount, 0, 10);
         for (int i = 0; i < PointCount; i++)
             for (int j = 0; j < PointCount; j++)
                 points[i][j]=Integer.toString(randomMatrix[i][j]);
